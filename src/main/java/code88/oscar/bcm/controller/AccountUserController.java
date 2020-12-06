@@ -33,7 +33,7 @@ import code88.oscar.bcm.services.UserService;
 import code88.oscar.bcm.viewObjects.AccountUserVO;
 import code88.oscar.bcm.viewObjects.ProfileUserVO;
 
-@CrossOrigin(origins = "coffee-management-fe-0498.herokuapp.com", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/account")
 public class AccountUserController {
