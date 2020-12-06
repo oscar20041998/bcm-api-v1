@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import code88.oscar.bcm.services.UserService;
 import code88.oscar.bcm.viewObjects.AccountUserVO;
 import code88.oscar.bcm.viewObjects.ProfileUserVO;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/account")
 public class AccountUserController {
