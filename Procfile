@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -java target/bcm-api-0.0.1-SNAPSHOT.java -Dserver.port=$PORT $JAR_OPTS
