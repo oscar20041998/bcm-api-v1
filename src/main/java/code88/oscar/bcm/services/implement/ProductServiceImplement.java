@@ -1,7 +1,6 @@
 package code88.oscar.bcm.services.implement;
 
-import static com.sun.tools.javac.util.Convert.utf2string;
-
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class ProductServiceImplement implements ProductService {
 	    vo.setProductId(model.getProductId());
 	    vo.setCategoryId(model.getCategoryId());
 	    vo.setProductName(model.getProductName());
-	    vo.setImageContent(model.getImage() != null ? utf2string(model.getImage()) : "");
+	    vo.setImageContent(model.getImage() != null ? new String(model.getImage(), StandardCharsets.UTF_8) : "");
 	    vo.setPrice(model.getPrice());
 	    vo.setPriceFormatString(commonMethod.convertCurrencyToString(model.getPrice()));
 	    vo.setCreateBy(model.getCreateBy());
@@ -114,7 +113,7 @@ public class ProductServiceImplement implements ProductService {
 	vo.setCategoryId(model.getCategoryId());
 	vo.setProductId(model.getProductId());
 	vo.setProductName(model.getProductName());
-	vo.setImageContent(model.getImage() != null ? utf2string(model.getImage()) : "");
+	vo.setImageContent(model.getImage() != null ? new String(model.getImage(), StandardCharsets.UTF_8) : "");
 	vo.setPrice(model.getPrice());
 	vo.setPriceFormatString("₫"+commonMethod.convertCurrencyToString(model.getPrice()));
 	vo.setCreateBy(model.getCreateBy());
