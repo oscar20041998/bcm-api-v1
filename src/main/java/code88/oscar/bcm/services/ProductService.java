@@ -22,6 +22,6 @@ public interface ProductService {
     
     List<ProductVO> getProductByProductName(String productName);
     
-    ProductModel getProductById (String productId);
+    ProductVO getProductById (String productId);
 
 }

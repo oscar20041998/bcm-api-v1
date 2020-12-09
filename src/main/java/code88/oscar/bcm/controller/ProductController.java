@@ -20,7 +20,6 @@ import code88.oscar.bcm.common.ActionCommon;
 import code88.oscar.bcm.common.CommonMethod;
 import code88.oscar.bcm.common.MessageCommon;
 import code88.oscar.bcm.common.StatusCommon;
-import code88.oscar.bcm.model.ProductModel;
 import code88.oscar.bcm.request.SaveProductRequest;
 import code88.oscar.bcm.services.AccountUserService;
 import code88.oscar.bcm.services.ProductService;
@@ -204,30 +203,30 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/get-product-by-id/{productId}/{accountIdValid}", method = RequestMethod.GET)
-    public ResponseEntity<ProductModel> getProductById(@PathVariable("accountIdValid") String accountIdValid,
+    public ResponseEntity<ProductVO> getProductById(@PathVariable("accountIdValid") String accountIdValid,
 	    @PathVariable("productId") String productId) {
-	ProductModel model = new ProductModel();
+	ProductVO vo = new ProductVO();
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_PRODUCT_BY_ID);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountIdValid);
 	    boolean isManager = accountUserService.isMangerRole(accountIdValid);
 	    if (isAdmin == true || isManager == true) {
-		model = productService.getProductById(productId);
+		vo = productService.getProductById(productId);
 		LOGGER.log(Level.INFO, MessageCommon.GET_PRODUCT_BY_ID_SUCCESS);
 		LOGGER.log(Level.ERROR, MessageCommon.LINE);
-		return new ResponseEntity<ProductModel>(model, HttpStatus.OK);
+		return new ResponseEntity<ProductVO>(vo, HttpStatus.OK);
 	    } else {
 		LOGGER.log(Level.INFO, MessageCommon.GET_PRODUCT_BY_ID_FAILED);
 		LOGGER.log(Level.ERROR, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.ERROR, MessageCommon.LINE);
-		return new ResponseEntity<ProductModel>(model, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<ProductVO>(vo, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    LOGGER.log(Level.INFO, MessageCommon.DELETE_PRODUCT_FAILED);
+	    LOGGER.log(Level.INFO, MessageCommon.GET_PRODUCT_BY_ID_FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.LINE);
-	    return new ResponseEntity<ProductModel>(model, HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<ProductVO>(vo, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
 }

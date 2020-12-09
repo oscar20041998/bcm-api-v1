@@ -22,19 +22,19 @@ public class ProductLogModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
-    
+
     @Column(name = "product_name")
     private String productName;
-    
+
     @Column(name = "price")
     private BigDecimal price;
-    
-    @Column(name="action_user")
+
+    @Column(name = "action_user")
     private String actionUser;
-    
+
     @Column(name = "create_by")
     private String createBy;
-    
+
     @Column(name = "create_date")
     private LocalDateTime createDate;
 

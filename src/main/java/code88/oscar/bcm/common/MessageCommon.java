@@ -22,7 +22,7 @@ public class MessageCommon {
     public final static String LOGOUT_SUCCESS = "LOG OUT SUCCESS";
 
     public final static String NOT_HAVE_PERMISSION = "DON'T HAVE PERMISSION";
-    
+
     public final static String DUPLICATE_LOGIN = "DUPLICATED LOG IN";
 
     // FOR USER
@@ -82,7 +82,7 @@ public class MessageCommon {
     public final static String GET_LIST_ACCOUNT_SUCCESS = "GET LIST ACCOUNT SUCCESS";
 
     public final static String GET_LIST_ACCOUNT_FAILED = "GET LIST ACCOUNT IS FAILED";
-    
+
     public final static String START_GET_LIST_ACCOUNT_NEARLY = "WE STARTED TO GET LIST ACCOUNT LOGIN NEARLY";
 
     public final static String GET_LIST_ACCOUNT_NEARLY_SUCCESS = "GET LIST ACCOUNT LOGIN NEARLY SUCCESS";
@@ -191,7 +191,7 @@ public class MessageCommon {
     public static final String SAVE_ORDER_SUCCESS = "SAVE ORDER PRODUCT SUCCESS";
 
     public static final String SAVE_ORDER_FAILED = "SAVE ORDER PRODUCT FAILED";
-    
+
     public static final String START_DELETE_ORDER = "WE START DELTE ORDER PRODUCT";
 
     public static final String DELETE_ORDER_SUCCESS = "DELETE ORDER PRODUCT SUCCESS";
@@ -209,13 +209,12 @@ public class MessageCommon {
     public static final String GET_ORDER_PRODUCT_PENDING_SUCCESS = "GET ORDER PRODUCT PENDING SUCCESS";
 
     public static final String GET_ORDER_PRODUCT_PENDING_FAILED = "GET ORDER PRODUCT PENDING FAILED";
-    
+
     public static final String START_UPDATE_ORDER_PRODUCT_PENDING = "WE START UPDATE ORDER PRODUCT PENDING";
 
     public static final String UPDATE_PRODUCT_PENDING_SUCCESS = "UPDATE ORDER PRODUCT PENDING SUCCESS";
 
     public static final String UPDATE_ORDER_PRODUCT_PENDING_FAILED = "UPDATE ORDER PRODUCT PENDING FAILED";
-    
 
     // FOR TRANSACTION
     public static final String START_SAVE_TRANSACTION = "WE STARTED TO SAVE TRANSACTION";
@@ -229,5 +228,25 @@ public class MessageCommon {
     public static final String GET_TRANSACTIONS_SUCCESS = "GET TRANSACTIONS SUCCESS";
 
     public static final String GET_TRANSACTIONS_FAILED = "GET TRANSACTIONS FAILED";
+
+    // IMAGE PRODUCT
+
+    public static final String START_GET_IMAGES = "WE START TO GET LIST IMAGE PRODUCT";
+
+    public static final String GET_IMAGES_SUCCESS = "GET LIST IMAGE SUCCESS";;
+
+    public static final String GET_IMAGES_FAILED = "GET LIST IMAGE FAILED";
+
+    public static final String START_SAVE_IMAGE = "WE START TO SAVE IMAGE PRODUCT";
+
+    public static final String SAVE_IMAGE_SUCCESS = "SAVE IMAGE PRODUCT SUCCESS";;
+
+    public static final String SAVE_IMAGE_FAILED = "SAVE IMAGE FAILED";
+
+    public static final String START_DELETE_IMAGE = "WE START TO DELETE IMAGE PRODUCT";
+
+    public static final String DELETE_IMAGE_SUCCESS = "DELETE IMAGE SUCCESS";;
+
+    public static final String DELETE_IMAGE_FAILED = "DELETE IMAGE FAILED";
 
 }

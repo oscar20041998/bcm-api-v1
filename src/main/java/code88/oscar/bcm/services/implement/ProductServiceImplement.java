@@ -1,5 +1,7 @@
 package code88.oscar.bcm.services.implement;
 
+import static com.sun.tools.javac.util.Convert.utf2string;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class ProductServiceImplement implements ProductService {
 
     @Override
     public ProductModel saveProduct(SaveProductRequest request) {
-	ProductModel model = mappingProductModel(request);
+ 	ProductModel model = mappingProductModel(request);
 	return productRepository.save(model);
     }
 
@@ -54,6 +56,7 @@ public class ProductServiceImplement implements ProductService {
 	    vo.setProductId(model.getProductId());
 	    vo.setCategoryId(model.getCategoryId());
 	    vo.setProductName(model.getProductName());
+	    vo.setImageContent(model.getImage() != null ? utf2string(model.getImage()) : "");
 	    vo.setPrice(model.getPrice());
 	    vo.setPriceFormatString(commonMethod.convertCurrencyToString(model.getPrice()));
 	    vo.setCreateBy(model.getCreateBy());
@@ -74,6 +77,7 @@ public class ProductServiceImplement implements ProductService {
 		: request.getProductId());
 	model.setCategoryId(request.getCategoryId());
 	model.setProductName(request.getProductName());
+	model.setImage(request.getImage().getBytes());
 	model.setPrice(request.getPrice());
 	model.setCreateBy(request.getCreateBy());
 	model.setCreateDate(commonMethod.getDateTimeNow());
@@ -95,8 +99,27 @@ public class ProductServiceImplement implements ProductService {
     }
 
     @Override
-    public ProductModel getProductById(String productId) {
-	return productRepository.getProductById(productId);
+    public ProductVO getProductById(String productId) {
+	ProductModel model = productRepository.getProductById(productId);
+	ProductVO vo = mappingProductVO(model);
+	return vo;
+    }
+    
+    /**
+     * @Funtion: mappingProductVO(...)
+     * @param: ProductModel - object
+     * */
+    ProductVO mappingProductVO(ProductModel model) {
+	ProductVO vo = new ProductVO();
+	vo.setCategoryId(model.getCategoryId());
+	vo.setProductId(model.getProductId());
+	vo.setProductName(model.getProductName());
+	vo.setImageContent(model.getImage() != null ? utf2string(model.getImage()) : "");
+	vo.setPrice(model.getPrice());
+	vo.setPriceFormatString("₫"+commonMethod.convertCurrencyToString(model.getPrice()));
+	vo.setCreateBy(model.getCreateBy());
+	vo.setCreateDate(commonMethod.convertDateToString(model.getCreateDate()));
+	return vo;
     }
 
 }

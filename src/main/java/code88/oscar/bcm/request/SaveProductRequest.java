@@ -13,6 +13,7 @@ public class SaveProductRequest {
     private String categoryId;
     private String productName;
     private BigDecimal price;
+    private String image;
     private String createBy;
     private LocalDateTime createDate;
     public SaveProductRequest() {
@@ -20,7 +21,7 @@ public class SaveProductRequest {
 	// TODO Auto-generated constructor stub
     }
     public SaveProductRequest(String productId, String categoryId, String productName, BigDecimal price,
-	    String createBy, LocalDateTime createDate) {
+	    String createBy, LocalDateTime createDate, String image) {
 	super();
 	this.productId = productId;
 	this.categoryId = categoryId;
@@ -28,6 +29,7 @@ public class SaveProductRequest {
 	this.price = price;
 	this.createBy = createBy;
 	this.createDate = createDate;
+	this.image = image;
     }
     public String getProductId() {
         return productId;
@@ -65,6 +67,10 @@ public class SaveProductRequest {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-    
-    
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

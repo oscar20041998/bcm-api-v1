@@ -11,12 +11,13 @@ public class ProductVO {
     private String productId;
     private String categoryId;
     private String productName;
+    private String imageContent;
     private BigDecimal price;
     private String priceFormatString;
     private String createBy;
     private String createDate;
     public ProductVO(String productId, String categoryId, String productName, BigDecimal price,
-	    String priceFormatString, String createBy, String createDate) {
+	    String priceFormatString, String createBy, String createDate, String imageContent) {
 	super();
 	this.productId = productId;
 	this.categoryId = categoryId;
@@ -25,6 +26,7 @@ public class ProductVO {
 	this.priceFormatString = priceFormatString;
 	this.createBy = createBy;
 	this.createDate = createDate;
+	this.imageContent = imageContent;
     }
     public ProductVO() {
 	super();
@@ -71,6 +73,13 @@ public class ProductVO {
     }
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+    
+    public String getImageContent() {
+        return imageContent;
+    }
+    public void setImageContent(String imageContent) {
+        this.imageContent = imageContent;
     }
     @Override
     public String toString() {
