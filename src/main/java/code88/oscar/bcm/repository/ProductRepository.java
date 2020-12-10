@@ -21,15 +21,14 @@ public interface ProductRepository extends JpaRepository<ProductModel, String> {
 	    + "	prd.product_id, "
 	    + "	ctg.category_name as category_id, " 
 	    + "	prd.product_name, "
-	    + " prd.image,"
-	    + " prd.image_name, " 
+	    + " prd.image, " 
 	    + "	prd.price, "
 	    + " prd.create_by, "
 	    + " prd.create_date " 
 	    + " FROM "
 	    + "	product prd" 
 	    + " LEFT JOIN category ctg ON prd.category_id = ctg.category_id "
-	    + " ORDER BY category_id";
+	    + " ORDER BY category_id ASC";
     
     public final static String sql_getProductByCategoryId = "" 
 	    + " SELECT " 
@@ -43,7 +42,8 @@ public interface ProductRepository extends JpaRepository<ProductModel, String> {
 		    + " FROM "
 		    + "	product prd" 
 		    + " LEFT JOIN category ctg ON prd.category_id = ctg.category_id "
-		    + " WHERE prd.category_id = :pCategoryId";
+		    + " WHERE prd.category_id = :pCategoryId"
+		    + " ORDER BY prd.product_name ASC";
     
     public final static String sql_getProductByProductName = "" 
 	    + " SELECT " 

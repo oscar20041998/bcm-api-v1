@@ -57,12 +57,10 @@ public class ProductController {
 	    boolean isStaff = accountUserService.isStaffRole(accountIdValid);
 	    if (isAdmin == true || isManager == true || isStaff == true) {
 		listProduct = productService.getListProduct();
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_PRODUCTS, StatusCommon.SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ALL_PRODUCT_SUCCESS);
 		LOGGER.log(Level.ERROR, MessageCommon.LINE);
 		return new ResponseEntity<List<ProductVO>>(listProduct, HttpStatus.OK);
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_PRODUCTS, StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ALL_PRODUCT_FAILED);
 		LOGGER.log(Level.ERROR, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.ERROR, MessageCommon.LINE);
