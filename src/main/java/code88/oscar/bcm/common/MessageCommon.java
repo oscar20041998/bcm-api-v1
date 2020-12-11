@@ -249,4 +249,41 @@ public class MessageCommon {
 
     public static final String DELETE_IMAGE_FAILED = "DELETE IMAGE FAILED";
 
+    // BANK INFO
+    public static final String START_GET_LIST_BANK_INFO = "WE START TO GET LIST BANK INFO";
+
+    public static final String GET_LIST_BANK_SUCCESS = "GET LIST BANK SUCCESS";;
+
+    public static final String GET_LIST_BANK_FAILED = "GET LIST BANK FAILED";
+
+    public static final String START_GET_LIST_BANK_ACTIVE = "WE START TO GET LIST BANK ACTIVE";
+
+    public static final String GET_LIST_BANK_ACTIVE_SUCCESS = "GET LIST BANK ACTIVE SUCCESS";;
+
+    public static final String GET_LIST_BANK_ACTIVE_FAILED = "GET LIST BANK ACTIVE FAILED";
+
+    public static final String START_DISABLED_BANK_INFO = "WE START TO DISABLED THE BANK";
+
+    public static final String DISABLE_BANK_SUCCESS = "DISABLED BANK SUCCESS";;
+
+    public static final String DISABLE_BANK_FAILED = "DISABLE BANK FAILED";
+
+    // ELECTRONIC WALLET
+    public static final String START_GET_LIST_EWALLET_INFO = "WE START TO GET LIST ELECTRONIC WALLET INFO";
+
+    public static final String GET_LIST_EWALLET_SUCCESS = "GET LIST ELECTRONIC WALLET SUCCESS";;
+
+    public static final String GET_LIST_EWALLET_FAILED = "GET LIST ELECTRONIC WALLET FAILED";
+
+    public static final String START_GET_EWALLET_BANK_ACTIVE = "WE START TO GET LIST ELECTRONIC WALLET ACTIVE";
+
+    public static final String GET_LIST_EWALLET_ACTIVE_SUCCESS = "GET LIST ELECTRONIC WALLET ACTIVE SUCCESS";;
+
+    public static final String GET_LIST_EWALLET_ACTIVE_FAILED = "GET LIST ELECTRONIC WALLET ACTIVE FAILED";
+
+    public static final String START_DISABLED_EWALLET = "WE START TO DISABLED THE AELECTRONIC WALLETNK";
+
+    public static final String DISABLE_EWALLET_SUCCESS = "DISABLED ELECTRONIC WALLET SUCCESS";;
+
+    public static final String DISABLE_EWALLET_FAILED = "DISABLE ELECTRONIC WALLET FAILED";
 }

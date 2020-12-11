@@ -1,41 +1,22 @@
-package code88.oscar.bcm.model;
-
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package code88.oscar.bcm.viewObjects;
 
 /**
- * @FileName: BankInfo.java
- * @since: 10/12/2020
+ * @FileName: BankinfoVO.java
+ * @since: 11/12/2020
  */
-@Entity
-@Table(name = "bank_info")
-public class BankInfoModel {
+public class BankInfoVO {
 
-    @Id
-    @Column(name = "bank_code")
     private String bankCode;
-
-    @Column(name = "bank_name")
     private String bankName;
-
-    @Column(name = "status")
     private String status;
-    
-    @Column(name = "create_by")
     private String createBy;
+    private String createDate;
 
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
-
-    public BankInfoModel() {
+    public BankInfoVO() {
 	// TODO Auto-generated constructor stub
     }
 
-    public BankInfoModel(String bankCode, String bankName, String status, String createBy, LocalDateTime createDate) {
+    public BankInfoVO(String bankCode, String bankName, String status, String createBy, String createDate) {
 	super();
 	this.bankCode = bankCode;
 	this.bankName = bankName;
@@ -76,12 +57,18 @@ public class BankInfoModel {
 	this.createBy = createBy;
     }
 
-    public LocalDateTime getCreateDate() {
+    public String getCreateDate() {
 	return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(String createDate) {
 	this.createDate = createDate;
+    }
+
+    @Override
+    public String toString() {
+	return "BankInfoVO [bankCode=" + bankCode + ", bankName=" + bankName + ", status=" + status + ", createBy="
+		+ createBy + ", createDate=" + createDate + "]";
     }
 
 }
