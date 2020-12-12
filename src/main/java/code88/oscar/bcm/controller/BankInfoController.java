@@ -124,4 +124,30 @@ public class BankInfoController {
 	    return new ResponseEntity<String>(MessageCommon.DISABLE_BANK_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
+    
+    @RequestMapping(value ="/enable-bank/{accountUserValid}/{bankCode}", method = RequestMethod.POST)
+    public ResponseEntity<String> enableBankInfoByCode(@PathVariable("accountUserValid") String accountUserValid,
+	    @PathVariable("bankCode") String bankCode) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_ENABLE_BANK_INFO);
+	try {
+	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
+	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
+	    if (isAdmin == true || isManager == true) {
+		bankInfoService.enabledBankInfoByCode(bankCode);
+		LOGGER.log(Level.INFO, MessageCommon.ENABLE_BANK_SUCCESS);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<String>(MessageCommon.ENABLE_BANK_SUCCESS, HttpStatus.OK);
+	    } else {
+		LOGGER.log(Level.INFO, MessageCommon.ENABLE_BANK_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<String>(MessageCommon.ENABLE_BANK_FAILED, HttpStatus.UNAUTHORIZED);
+	    }
+	}catch (Exception ex) {
+	    LOGGER.log(Level.INFO, MessageCommon.ENABLE_BANK_FAILED + ": " + ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.LINE);
+	    return new ResponseEntity<String>(MessageCommon.ENABLE_BANK_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+    }
 }

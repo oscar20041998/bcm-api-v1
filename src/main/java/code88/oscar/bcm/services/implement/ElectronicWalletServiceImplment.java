@@ -61,4 +61,9 @@ public class ElectronicWalletServiceImplment implements ElectronicWalletService 
 	}
 	return listVO;
     }
+
+    @Override
+    public void enableElectrpnicWalletById(int id) {
+	electronicWalletRepository.enableWalletById(id);
+    }
 }

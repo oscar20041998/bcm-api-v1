@@ -62,4 +62,9 @@ public class BankInfoServiceImplement implements BankInfoService {
 	return listVO;
     }
 
+    @Override
+    public void enabledBankInfoByCode(String banCode) {
+	bankInfoRepository.enableBankInfoByCode(banCode);
+    }
+
 }

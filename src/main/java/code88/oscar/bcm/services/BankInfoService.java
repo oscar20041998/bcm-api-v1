@@ -15,4 +15,6 @@ public interface BankInfoService {
     List<BankInfoVO> getBankInfoActive();
 
     void disableBankInfoByCode(String bankCode);
+    
+    void enabledBankInfoByCode (String banCode);
 }

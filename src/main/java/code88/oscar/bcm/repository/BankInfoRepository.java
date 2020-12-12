@@ -38,10 +38,13 @@ public interface BankInfoRepository extends JpaRepository<BankInfoModel, String>
     	+ "	create_date "
     	+ " FROM bank_info "
     	+ " WHERE "
-    	+ "	status = 'ACTIVE' ";
+    	+ "	status = 'true' ";
     
     public static final String disableBankInfoByCode = ""
-    	+ " UPDATE bank_info SET status = 'INACTIVE' WHERE bank_code = :pBankCode ";
+    	+ " UPDATE bank_info SET status = 'false' WHERE bank_code = :pBankCode ";
+    
+    public static final String enabledBankInfoByCode = ""
+	    	+ " UPDATE bank_info SET status = 'true' WHERE bank_code = :pBankCode ";
     
     @Query(value = getAllBanksInfo, nativeQuery = true)
     List<BankInfoModel> getListBankInfo();
@@ -53,4 +56,9 @@ public interface BankInfoRepository extends JpaRepository<BankInfoModel, String>
     @Modifying
     @Query(value = disableBankInfoByCode, nativeQuery = true)
     void disableBankInfoByCode(@Param("pBankCode") String bankCode);
+    
+    @Transactional
+    @Modifying
+    @Query(value = enabledBankInfoByCode, nativeQuery = true)
+    void enableBankInfoByCode(@Param("pBankCode") String bankCode);
 }

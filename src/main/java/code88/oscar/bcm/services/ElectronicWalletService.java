@@ -16,4 +16,5 @@ public interface ElectronicWalletService {
     
     void disableElectronicWalletById (int id);
 
+    void enableElectrpnicWalletById (int id); 
 }

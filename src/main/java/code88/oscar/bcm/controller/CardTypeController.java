@@ -19,125 +19,125 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code88.oscar.bcm.common.MessageCommon;
 import code88.oscar.bcm.services.AccountUserService;
-import code88.oscar.bcm.services.ElectronicWalletService;
-import code88.oscar.bcm.viewObjects.ElectronicWalletVO;
+import code88.oscar.bcm.services.CardTypeService;
+import code88.oscar.bcm.viewObjects.CardTypeVO;
 
 /**
- * @FileName: ElectronicWalletConller.java
- * @since: 11/12/2020
+ * @FileName: CardTypeController.java
+ * @since: 12/12/2020
  * */
-@CrossOrigin(origins ="*")
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/electronic-wallet")
-public class ElectronicWalletController {
+@RequestMapping(value = "/api/card-type")
+public class CardTypeController {
 
-    private static final Logger LOGGER = LogManager.getLogger(ElectronicWalletController.class);
+    private static final Logger LOGGER = LogManager.getLogger(CardTypeController.class);
 
     @Autowired
-    private ElectronicWalletService electronicWalletService;
+    private CardTypeService cardTypeService;
 
     @Autowired
     private AccountUserService accountUserService;
 
-    @RequestMapping(value = "/get-list-ewallet-info/{accountUserValid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get-list-card-type-info/{accountUserValid}", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getListBankInfo(
 	    @PathVariable("accountUserValid") String accountUserValid) {
 	Map<String, Object> map = new HashMap<>();
-	List<ElectronicWalletVO> list = new ArrayList<>();
+	List<CardTypeVO> list = new ArrayList<>();
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
-	LOGGER.log(Level.INFO, MessageCommon.START_GET_LIST_EWALLET_INFO);
+	LOGGER.log(Level.INFO, MessageCommon.START_GET_LIST_CARD_TYPE);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
 	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
 	    if (isAdmin == true || isManager == true) {
-		list = electronicWalletService.getListWallet();
-		map.put("wallets", list);
-		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_SUCCESS);
+		list = cardTypeService.getAllCards();
+		map.put("cards", list);
+		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	    } else {
-		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_FAILED + ": " + ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_FAILED + ": " + ex.getMessage());
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
 	    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
     }
 
-    @RequestMapping(value = "/get-list-ewallet-active/{accountUserValid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get-list-card-active/{accountUserValid}", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> getListBankActive(
 	    @PathVariable("accountUserValid") String accountUserValid) {
 	Map<String, Object> map = new HashMap<>();
-	List<ElectronicWalletVO> list = new ArrayList<>();
+	List<CardTypeVO> list = new ArrayList<>();
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
-	LOGGER.log(Level.INFO, MessageCommon.START_GET_EWALLET_BANK_ACTIVE);
+	LOGGER.log(Level.INFO, MessageCommon.START_GET_LIST_CARD_TYPE_ACTIVE);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
 	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
 	    boolean isStaff = accountUserService.isStaffRole(accountUserValid);
 	    if (isAdmin == true || isManager == true || isStaff == true) {
-		list = electronicWalletService.getListWalletActive();
-		map.put("wallets", list);
-		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_ACTIVE_SUCCESS);
+		list = cardTypeService.getActiveCards();
+		map.put("cards", list);
+		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_ACTIVE_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	    } else {
-		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_ACTIVE_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_ACTIVE_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    LOGGER.log(Level.INFO, MessageCommon.GET_LIST_EWALLET_ACTIVE_FAILED + ": " + ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.GET_LIST_CARD_TYPE_ACTIVE_FAILED + ": " + ex.getMessage());
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
 	    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
 
-    @RequestMapping(value ="/disable-ewallet/{accountUserValid}/{id}", method = RequestMethod.POST)
+    @RequestMapping(value ="/disable-card/{accountUserValid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> disableBankInfoByCode(@PathVariable("accountUserValid") String accountUserValid,
 	    @PathVariable("id") int id) {
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
-	LOGGER.log(Level.INFO, MessageCommon.START_DISABLE_EWALLET);
+	LOGGER.log(Level.INFO, MessageCommon.START_DISABLE_CARD_TYPE);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
 	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
 	    if (isAdmin == true || isManager == true) {
-		electronicWalletService.disableElectronicWalletById(id);
-		LOGGER.log(Level.INFO, MessageCommon.DISABLE_EWALLET_SUCCESS);
+		cardTypeService.disableCardById(id);
+		LOGGER.log(Level.INFO, MessageCommon.DISABLE_CARD_TYPE_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<String>(MessageCommon.DISABLE_BANK_SUCCESS, HttpStatus.OK);
 	    } else {
-		LOGGER.log(Level.INFO, MessageCommon.DISABLE_EWALLET_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.DISABLE_CARD_TYPE_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
-		return new ResponseEntity<String>(MessageCommon.DISABLE_EWALLET_FAILED, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<String>(MessageCommon.DISABLE_CARD_TYPE_FAILED, HttpStatus.UNAUTHORIZED);
 	    }
 	}catch (Exception ex) {
-	    LOGGER.log(Level.INFO, MessageCommon.DISABLE_EWALLET_FAILED + ": " + ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.DISABLE_CARD_TYPE_FAILED + ": " + ex.getMessage());
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
-	    return new ResponseEntity<String>(MessageCommon.DISABLE_BANK_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<String>(MessageCommon.DISABLE_CARD_TYPE_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
     
-    @RequestMapping(value ="/enable-ewallet/{accountUserValid}/{id}", method = RequestMethod.POST)
+    @RequestMapping(value ="/enable-card/{accountUserValid}/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> enableBankInfoByCode(@PathVariable("accountUserValid") String accountUserValid,
 	    @PathVariable("id") int id) {
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
-	LOGGER.log(Level.INFO, MessageCommon.START_ENABLE_EWALLET);
+	LOGGER.log(Level.INFO, MessageCommon.START_ENABLE_CARD_TYPE);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
 	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
 	    if (isAdmin == true || isManager == true) {
-		electronicWalletService.enableElectrpnicWalletById(id);
-		LOGGER.log(Level.INFO, MessageCommon.ENABLE_EWALLET_SUCCESS);
+		cardTypeService.enableCardById(id);
+		LOGGER.log(Level.INFO, MessageCommon.ENABLE_CARD_TYPE_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
-		return new ResponseEntity<String>(MessageCommon.ENABLE_EWALLET_SUCCESS, HttpStatus.OK);
+		return new ResponseEntity<String>(MessageCommon.ENABLE_CARD_TYPE_SUCCESS, HttpStatus.OK);
 	    } else {
 		LOGGER.log(Level.INFO, MessageCommon.ENABLE_EWALLET_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
@@ -145,10 +145,9 @@ public class ElectronicWalletController {
 		return new ResponseEntity<String>(MessageCommon.ENABLE_EWALLET_FAILED, HttpStatus.UNAUTHORIZED);
 	    }
 	}catch (Exception ex) {
-	    LOGGER.log(Level.INFO, MessageCommon.ENABLE_EWALLET_FAILED + ": " + ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.ENABLE_CARD_TYPE_FAILED + ": " + ex.getMessage());
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
-	    return new ResponseEntity<String>(MessageCommon.ENABLE_EWALLET_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<String>(MessageCommon.ENABLE_CARD_TYPE_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
-
 }

@@ -36,10 +36,13 @@ public interface ElectronicWalletRepository extends JpaRepository<ElectronicWall
 	    + " status, "
 	    + " FROM electronic_wallet " 
 	    + " WHERE " 
-	    + "	status = 'ACTIVE' ";
+	    + "	status = 'true' ";
 
-    public static final String disableBankInfoByCode = ""
-	    + " UPDATE electronic_wallet SET status = 'INACTIVE' WHERE id = :pId ";
+    public static final String disableWalletById = ""
+	    + " UPDATE electronic_wallet SET status = 'false' WHERE id = :pId ";
+    
+    public static final String enabledWalletById = ""
+	    + " UPDATE electronic_wallet SET status = 'true' WHERE id = :pId ";
 
     @Query(value = getAllElectronicWallet, nativeQuery = true)
     List<ElectronicWalletModel> getListWallet();
@@ -49,6 +52,11 @@ public interface ElectronicWalletRepository extends JpaRepository<ElectronicWall
 
     @Transactional
     @Modifying
-    @Query(value = disableBankInfoByCode, nativeQuery = true)
+    @Query(value = disableWalletById, nativeQuery = true)
     void disableWalletById(@Param("pId") int id);
+    
+    @Transactional
+    @Modifying
+    @Query(value = enabledWalletById, nativeQuery = true)
+    void enableWalletById(@Param("pId") int id);
 }

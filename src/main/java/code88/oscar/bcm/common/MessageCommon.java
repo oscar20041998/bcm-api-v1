@@ -267,6 +267,12 @@ public class MessageCommon {
     public static final String DISABLE_BANK_SUCCESS = "DISABLED BANK SUCCESS";;
 
     public static final String DISABLE_BANK_FAILED = "DISABLE BANK FAILED";
+    
+    public static final String START_ENABLE_BANK_INFO = "WE START TO DISABLED THE BANK";
+
+    public static final String ENABLE_BANK_SUCCESS = "ENSABLED BANK SUCCESS";;
+
+    public static final String ENABLE_BANK_FAILED = "ENSABLED BANK FAILED";
 
     // ELECTRONIC WALLET
     public static final String START_GET_LIST_EWALLET_INFO = "WE START TO GET LIST ELECTRONIC WALLET INFO";
@@ -281,9 +287,40 @@ public class MessageCommon {
 
     public static final String GET_LIST_EWALLET_ACTIVE_FAILED = "GET LIST ELECTRONIC WALLET ACTIVE FAILED";
 
-    public static final String START_DISABLED_EWALLET = "WE START TO DISABLED THE AELECTRONIC WALLETNK";
+    public static final String START_DISABLE_EWALLET = "WE START TO DISABLED THE AELECTRONIC WALLETNK";
 
     public static final String DISABLE_EWALLET_SUCCESS = "DISABLED ELECTRONIC WALLET SUCCESS";;
 
     public static final String DISABLE_EWALLET_FAILED = "DISABLE ELECTRONIC WALLET FAILED";
+    
+    public static final String START_ENABLE_EWALLET = "WE START TO DISABLED THE AELECTRONIC WALLETN";
+
+    public static final String ENABLE_EWALLET_SUCCESS = "ENABLED ELECTRONIC WALLET SUCCESS";;
+
+    public static final String ENABLE_EWALLET_FAILED = "ENABLED ELECTRONIC WALLET FAILED";
+    
+    // CARD TYPE
+    public static final String START_GET_LIST_CARD_TYPE = "WE START TO GET LIST CARD TYPE INFO";
+
+    public static final String GET_LIST_CARD_TYPE_SUCCESS = "GET LIST CARD TYPE SUCCESS";;
+
+    public static final String GET_LIST_CARD_TYPE_FAILED = "GET LIST CARD TYPE FAILED";
+
+    public static final String START_GET_LIST_CARD_TYPE_ACTIVE = "WE START TO GET LIST CARD TYPE ACTIVE";
+
+    public static final String GET_LIST_CARD_TYPE_ACTIVE_SUCCESS = "GET LIST CARD TYPE ACTIVE SUCCESS";;
+
+    public static final String GET_LIST_CARD_TYPE_ACTIVE_FAILED = "GET LIST CARD TYPE ACTIVE FAILED";
+
+    public static final String START_DISABLE_CARD_TYPE = "WE START TO DISABLED CARD TYPE";
+
+    public static final String DISABLE_CARD_TYPE_SUCCESS = "DISABLED CARD TYPE SUCCESS";;
+
+    public static final String DISABLE_CARD_TYPE_FAILED = "DISABLE CARD TYPE FAILED";
+    
+    public static final String START_ENABLE_CARD_TYPE = "WE START TO DISABLED THE CARD TYPE";
+
+    public static final String ENABLE_CARD_TYPE_SUCCESS = "ENABLED CARD TYPE SUCCESS";;
+
+    public static final String ENABLE_CARD_TYPE_FAILED = "ENABLED CARD TYPE FAILED";
 }
