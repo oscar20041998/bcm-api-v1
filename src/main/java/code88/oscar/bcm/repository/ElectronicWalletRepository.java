@@ -32,8 +32,10 @@ public interface ElectronicWalletRepository extends JpaRepository<ElectronicWall
     public static final String getActiveWallet = "" 
     + " SELECT " 
 	    + "	id, " 
-	    + "	wallet_name"
-	    + " status, "
+	    + "	wallet_name, "
+	    + " status,"
+	    + " create_date,"
+	    + " create_by "
 	    + " FROM electronic_wallet " 
 	    + " WHERE " 
 	    + "	status = 'true' ";

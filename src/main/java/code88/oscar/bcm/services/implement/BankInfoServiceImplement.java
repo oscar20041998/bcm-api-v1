@@ -1,5 +1,6 @@
 package code88.oscar.bcm.services.implement;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class BankInfoServiceImplement implements BankInfoService {
 	    BankInfoVO vo = new BankInfoVO();
 	    vo.setBankCode(model.getBankCode());
 	    vo.setBankName(model.getBankName());
+	    vo.setImageContent(new String(model.getImage(), StandardCharsets.UTF_8));
 	    vo.setStatus(model.getStatus());
 	    vo.setCreateBy(model.getCreateBy());
 	    vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));

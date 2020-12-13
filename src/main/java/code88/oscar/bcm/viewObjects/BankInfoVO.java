@@ -9,6 +9,7 @@ public class BankInfoVO {
     private String bankCode;
     private String bankName;
     private String status;
+    private String imageContent;
     private String createBy;
     private String createDate;
 
@@ -16,13 +17,14 @@ public class BankInfoVO {
 	// TODO Auto-generated constructor stub
     }
 
-    public BankInfoVO(String bankCode, String bankName, String status, String createBy, String createDate) {
+    public BankInfoVO(String bankCode, String bankName, String status, String createBy, String createDate, String imageContent) {
 	super();
 	this.bankCode = bankCode;
 	this.bankName = bankName;
 	this.status = status;
 	this.createBy = createBy;
 	this.createDate = createDate;
+	this.imageContent = imageContent;
     }
 
     public String getBankCode() {
@@ -63,6 +65,15 @@ public class BankInfoVO {
 
     public void setCreateDate(String createDate) {
 	this.createDate = createDate;
+    }
+
+    
+    public String getImageContent() {
+        return imageContent;
+    }
+
+    public void setImageContent(String imageContent) {
+        this.imageContent = imageContent;
     }
 
     @Override

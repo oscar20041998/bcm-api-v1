@@ -1,6 +1,7 @@
 package code88.oscar.bcm.model;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,10 @@ public class BankInfoModel {
 
     @Column(name = "status")
     private String status;
-    
+
+    @Column(name = "image")
+    private byte[] image;
+
     @Column(name = "create_by")
     private String createBy;
 
@@ -35,10 +39,12 @@ public class BankInfoModel {
 	// TODO Auto-generated constructor stub
     }
 
-    public BankInfoModel(String bankCode, String bankName, String status, String createBy, LocalDateTime createDate) {
+    public BankInfoModel(String bankCode, String bankName, String status, String createBy, LocalDateTime createDate,
+	    byte[] image) {
 	super();
 	this.bankCode = bankCode;
 	this.bankName = bankName;
+	this.image = image;
 	this.status = status;
 	this.createBy = createBy;
 	this.createDate = createDate;
@@ -82,6 +88,20 @@ public class BankInfoModel {
 
     public void setCreateDate(LocalDateTime createDate) {
 	this.createDate = createDate;
+    }
+
+    public byte[] getImage() {
+	return image;
+    }
+
+    public void setImage(byte[] image) {
+	this.image = image;
+    }
+
+    @Override
+    public String toString() {
+	return "BankInfoModel [bankCode=" + bankCode + ", bankName=" + bankName + ", status=" + status + ", image="
+		+ Arrays.toString(image) + ", createBy=" + createBy + ", createDate=" + createDate + "]";
     }
 
 }

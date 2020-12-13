@@ -24,6 +24,9 @@ public class ElectronicWalletModel {
 
     @Column(name = "status")
     private String status;
+    
+    @Column(name = "image")
+    private byte[] image;
 
     @Column(name = "create_by")
     private String create_by;
@@ -36,11 +39,12 @@ public class ElectronicWalletModel {
     }
 
     public ElectronicWalletModel(int id, String wallet_name, String status, String create_by,
-	    LocalDateTime createDate) {
+	    LocalDateTime createDate, byte[] image) {
 	super();
 	this.id = id;
 	this.wallet_name = wallet_name;
 	this.status = status;
+	this.image = image;
 	this.create_by = create_by;
 	this.createDate = createDate;
     }
@@ -83,6 +87,15 @@ public class ElectronicWalletModel {
 
     public void setCreateDate(LocalDateTime createDate) {
 	this.createDate = createDate;
+    }
+    
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override

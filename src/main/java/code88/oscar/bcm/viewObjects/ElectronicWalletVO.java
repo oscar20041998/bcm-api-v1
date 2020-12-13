@@ -9,6 +9,7 @@ public class ElectronicWalletVO {
     private int id;
     private String walletName;
     private String status;
+    private String imageContent;
     private String createBy;
     private String createDate;
 
@@ -16,13 +17,14 @@ public class ElectronicWalletVO {
 	// TODO Auto-generated constructor stub
     }
 
-    public ElectronicWalletVO(int id, String walletName, String status, String createBy, String createDate) {
+    public ElectronicWalletVO(int id, String walletName, String status, String createBy, String imageContent,String createDate) {
 	super();
 	this.id = id;
 	this.walletName = walletName;
 	this.status = status;
 	this.createBy = createBy;
 	this.createDate = createDate;
+	this.imageContent = imageContent;
     }
 
     public int getId() {
@@ -63,6 +65,14 @@ public class ElectronicWalletVO {
 
     public void setCreateDate(String createDate) {
 	this.createDate = createDate;
+    }
+
+    public String getImageContent() {
+        return imageContent;
+    }
+
+    public void setImageContent(String imageContent) {
+        this.imageContent = imageContent;
     }
 
     @Override
