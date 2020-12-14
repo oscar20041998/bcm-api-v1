@@ -1,5 +1,6 @@
 package code88.oscar.bcm.services.implement;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class ElectronicWalletServiceImplment implements ElectronicWalletService 
 	for (ElectronicWalletModel model : listModel) {
 	    ElectronicWalletVO vo = new ElectronicWalletVO();
 	    vo.setId(model.getId());
-	    vo.setWalletName(model.getWallet_name());
+	    vo.setImageContent(new String(model.getImage(), StandardCharsets.UTF_8));
 	    vo.setStatus(model.getStatus());
 	    vo.setCreateBy(model.getCreate_by());
 	    vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));

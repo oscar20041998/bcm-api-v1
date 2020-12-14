@@ -1,16 +1,19 @@
 package code88.oscar.bcm.request;
 
+import java.util.List;
+
 /**
  * @FileName: SaveTransactionRequest.java
  * @since:07/11/2020
  */
 public class SaveTransactionRequest {
+    
     private String totalPrice;
     private String tableId;
     private String paymentType;
-    private String cardType;
-    private String cardNumber;
-    private String bankName;
+    private BankInfoPaymentRequest bankInfoRequest;
+    private EWalletPaymentRequest eWalletRequest;
+    private List<OrderDetailRequest> listOrder;
     private String createBy;
 
     public SaveTransactionRequest() {
@@ -18,16 +21,17 @@ public class SaveTransactionRequest {
 	// TODO Auto-generated constructor stub
     }
 
-    public SaveTransactionRequest(String totalPrice, String tableId, String paymentType, String cardType,
-	    String cardNumber, String createBy, String bankName) {
+    public SaveTransactionRequest(String totalPrice, String tableId, String paymentType,
+	    BankInfoPaymentRequest bankInfoRequest, EWalletPaymentRequest eWalletRequest,
+	    List<OrderDetailRequest> listOrder, String createBy) {
 	super();
 	this.totalPrice = totalPrice;
 	this.tableId = tableId;
 	this.paymentType = paymentType;
-	this.cardType = cardType;
-	this.cardNumber = cardNumber;
+	this.bankInfoRequest = bankInfoRequest;
+	this.eWalletRequest = eWalletRequest;
+	this.listOrder = listOrder;
 	this.createBy = createBy;
-	this.bankName = bankName;
     }
 
     public String getTotalPrice() {
@@ -54,20 +58,28 @@ public class SaveTransactionRequest {
 	this.paymentType = paymentType;
     }
 
-    public String getCardType() {
-	return cardType;
+    public BankInfoPaymentRequest getBankInfoRequest() {
+	return bankInfoRequest;
     }
 
-    public void setCardType(String cardType) {
-	this.cardType = cardType;
+    public void setBankInfoRequest(BankInfoPaymentRequest bankInfoRequest) {
+	this.bankInfoRequest = bankInfoRequest;
     }
 
-    public String getCardNumber() {
-	return cardNumber;
+    public EWalletPaymentRequest geteWalletRequest() {
+	return eWalletRequest;
     }
 
-    public void setCardNumber(String cardNumber) {
-	this.cardNumber = cardNumber;
+    public void seteWalletRequest(EWalletPaymentRequest eWalletRequest) {
+	this.eWalletRequest = eWalletRequest;
+    }
+
+    public List<OrderDetailRequest> getListOrder() {
+	return listOrder;
+    }
+
+    public void setListOrder(List<OrderDetailRequest> listOrder) {
+	this.listOrder = listOrder;
     }
 
     public String getCreateBy() {
@@ -78,19 +90,11 @@ public class SaveTransactionRequest {
 	this.createBy = createBy;
     }
 
-    public String getBankName() {
-	return bankName;
-    }
-
-    public void setBankName(String bankName) {
-	this.bankName = bankName;
-    }
-
     @Override
     public String toString() {
 	return "SaveTransactionRequest [totalPrice=" + totalPrice + ", tableId=" + tableId + ", paymentType="
-		+ paymentType + ", cardType=" + cardType + ", cardNumber=" + cardNumber + ", bankName=" + bankName
-		+ ", createBy=" + createBy + "]";
+		+ paymentType + ", bankInfoRequest=" + bankInfoRequest + ", eWalletRequest=" + eWalletRequest
+		+ ", listOrder=" + listOrder + ", createBy=" + createBy + "]";
     }
 
 }

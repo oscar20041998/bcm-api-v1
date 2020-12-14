@@ -14,7 +14,11 @@ import code88.oscar.bcm.model.TransactionModel;
 import code88.oscar.bcm.repository.OrderProductRepository;
 import code88.oscar.bcm.repository.PositionRepository;
 import code88.oscar.bcm.repository.TransactionRepository;
+import code88.oscar.bcm.request.BankInfoPaymentRequest;
+import code88.oscar.bcm.request.EWalletPaymentRequest;
+import code88.oscar.bcm.request.OrderDetailRequest;
 import code88.oscar.bcm.request.SaveTransactionRequest;
+import code88.oscar.bcm.services.OrderDetailService;
 import code88.oscar.bcm.services.TransactionService;
 import code88.oscar.bcm.viewObjects.TransactionVO;
 
@@ -33,6 +37,9 @@ public class TransactionServiceImplement implements TransactionService {
 
     @Autowired
     private OrderProductRepository orderProductRepository;
+    
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     @Autowired
     private CommonMethod commonMethod;
@@ -51,19 +58,40 @@ public class TransactionServiceImplement implements TransactionService {
 	    TransactionModel transactionModel = new TransactionModel();
 	    String pr = request.getTotalPrice().replace(",", "");
 	    BigDecimal totalPrice = new BigDecimal(pr);
-	    transactionModel.setOrderId(request.getTableId() + "-" + commonMethod.convertDateTimeNowToString());
-	    transactionModel.setTransactionId("TXN" + commonMethod.convertDateTimeNowToString());
+	    BankInfoPaymentRequest bankRequest = request.getBankInfoRequest();
+	    EWalletPaymentRequest eWalletRequest = request.geteWalletRequest();
+	    List<OrderDetailRequest> listOrder = request.getListOrder();
+	    String timeNowString = commonMethod.convertDateTimeNowToString();
+	    String orderId = request.getTableId().concat(".").concat(timeNowString);
+	    String txnId = "No.".concat(timeNowString);
+	    
+	    transactionModel.setOrderId(orderId);
+	    transactionModel.setTransactionId(txnId);
 	    transactionModel.setTableId(request.getTableId());
 	    transactionModel.setTotalPrice(totalPrice);
 	    transactionModel.setStatus(StatusCommon.RECIEVED);
 	    transactionModel.setPaymentType(request.getPaymentType());
-	    transactionModel.setCardType(request.getCardType());
-	    transactionModel.setCardNumber(request.getCardNumber());
-	    transactionModel.setBankName(request.getBankName());
+	    
+	    // Set payment info by card
+	    transactionModel.setCardType(bankRequest.getCardType());
+	    transactionModel.setCardNumber(bankRequest.getCardNumber());
+	    transactionModel.setBankName(bankRequest.getBankName());
+	    transactionModel.setExpireDate(bankRequest.getExpireDate());
+	    transactionModel.setCvv(bankRequest.getCvv());
+	    
+	    // Set payment info by electronic wallet
+	    transactionModel.setTransactionCode(eWalletRequest.getTransactionCode());
+	    transactionModel.setProviderName(eWalletRequest.getProviderName());
+	    
 	    transactionModel.setCreateBy(request.getCreateBy());
 	    transactionModel.setCreateDate(commonMethod.getDateTimeNow());
 	    transactionRepository.save(transactionModel);
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
+	    
+	    // Save order detail
+	    for(OrderDetailRequest req : listOrder) {
+		orderDetailService.saveOrderRetail(req, orderId);
+	    }
 	    message = StatusCommon.SUCCESS;
 	    positionRepository.closeTableById(request.getTableId());
 
