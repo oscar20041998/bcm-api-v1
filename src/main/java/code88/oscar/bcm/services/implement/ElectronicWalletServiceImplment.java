@@ -54,6 +54,7 @@ public class ElectronicWalletServiceImplment implements ElectronicWalletService 
 	for (ElectronicWalletModel model : listModel) {
 	    ElectronicWalletVO vo = new ElectronicWalletVO();
 	    vo.setId(model.getId());
+	    vo.setWalletName(model.getWallet_name());
 	    vo.setImageContent(new String(model.getImage(), StandardCharsets.UTF_8));
 	    vo.setStatus(model.getStatus());
 	    vo.setCreateBy(model.getCreate_by());

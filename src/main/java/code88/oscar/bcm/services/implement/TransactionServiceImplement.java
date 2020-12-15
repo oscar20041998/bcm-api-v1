@@ -37,7 +37,7 @@ public class TransactionServiceImplement implements TransactionService {
 
     @Autowired
     private OrderProductRepository orderProductRepository;
-    
+
     @Autowired
     private OrderDetailService orderDetailService;
 
@@ -64,34 +64,33 @@ public class TransactionServiceImplement implements TransactionService {
 	    String timeNowString = commonMethod.convertDateTimeNowToString();
 	    String orderId = request.getTableId().concat(".").concat(timeNowString);
 	    String txnId = "No.".concat(timeNowString);
-	    
+
 	    transactionModel.setOrderId(orderId);
 	    transactionModel.setTransactionId(txnId);
 	    transactionModel.setTableId(request.getTableId());
 	    transactionModel.setTotalPrice(totalPrice);
 	    transactionModel.setStatus(StatusCommon.RECIEVED);
 	    transactionModel.setPaymentType(request.getPaymentType());
-	    
+
 	    // Set payment info by card
 	    transactionModel.setCardType(bankRequest.getCardType());
 	    transactionModel.setCardNumber(bankRequest.getCardNumber());
 	    transactionModel.setBankName(bankRequest.getBankName());
 	    transactionModel.setExpireDate(bankRequest.getExpireDate());
 	    transactionModel.setCvv(bankRequest.getCvv());
-	    
+
 	    // Set payment info by electronic wallet
 	    transactionModel.setTransactionCode(eWalletRequest.getTransactionCode());
 	    transactionModel.setProviderName(eWalletRequest.getProviderName());
-	    
+
 	    transactionModel.setCreateBy(request.getCreateBy());
 	    transactionModel.setCreateDate(commonMethod.getDateTimeNow());
 	    transactionRepository.save(transactionModel);
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
-	    
+
 	    // Save order detail
-	    for(OrderDetailRequest req : listOrder) {
-		orderDetailService.saveOrderRetail(req, orderId);
-	    }
+	    orderDetailService.saveOrderRetail(listOrder, request.getTableId(), orderId);
+
 	    message = StatusCommon.SUCCESS;
 	    positionRepository.closeTableById(request.getTableId());
 

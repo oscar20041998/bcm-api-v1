@@ -11,7 +11,7 @@ import code88.oscar.bcm.viewObjects.OrderDetailVO;
  * */
 public interface OrderDetailService {
 
-    void saveOrderRetail(OrderDetailRequest request, String orderId);
+    void saveOrderRetail(List<OrderDetailRequest>request, String tableId, String orderId);
     
     List<OrderDetailVO> getListOrderDetailById(String id);
 }
