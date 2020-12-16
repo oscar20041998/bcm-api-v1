@@ -3,7 +3,7 @@ package code88.oscar.bcm.repository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -41,8 +41,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetailModel, I
     	+ "	:pCreateDate"
     	+ ")";
     
-    @Transactional
     @Modifying
+    @Transactional
     @Query(value = saveOrderDetail, nativeQuery = true)
     void insertOrderDetail(@Param("pOrderId") String orderId, @Param("pTableId") String tableId,
 	    @Param("pProductId") String productId, @Param("pQuantity") int quantity, @Param("pPrice") BigDecimal price,

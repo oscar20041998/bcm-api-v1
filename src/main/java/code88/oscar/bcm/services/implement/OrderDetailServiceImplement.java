@@ -1,7 +1,6 @@
 package code88.oscar.bcm.services.implement;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class OrderDetailServiceImplement implements OrderDetailService {
     private OrderDetailRepository orderDetailRepository;
 
     @Override
-    public void saveOrderRetail(List<OrderDetailRequest> requestList, String tableId, String orderId) {
+    public void saveOrderDetail(List<OrderDetailRequest> requestList, String tableId, String orderId) {
 	try {
 	    for (OrderDetailRequest rq : requestList) {
 		String pr = rq.getPriceConvert().replace(",", "");
@@ -41,7 +40,7 @@ public class OrderDetailServiceImplement implements OrderDetailService {
 		model.setPrice(price);
 		model.setCreateBy(rq.getCreateBy());
 		model.setCreateDate(commonMethod.getDateTimeNow());
-		executeSaveOrderDetail(model);
+		orderDetailRepository.save(model);
 	    }
 	} catch (Exception ex) {
 

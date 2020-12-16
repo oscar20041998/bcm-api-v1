@@ -89,7 +89,7 @@ public class TransactionServiceImplement implements TransactionService {
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
 
 	    // Save order detail
-	    orderDetailService.saveOrderRetail(listOrder, request.getTableId(), orderId);
+	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId);
 
 	    message = StatusCommon.SUCCESS;
 	    positionRepository.closeTableById(request.getTableId());

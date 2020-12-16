@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * @FileName: OrderDetailModel.java
@@ -18,6 +19,7 @@ import javax.persistence.Transient;
 public class OrderDetailModel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
     @Column(name = "order_id")
@@ -28,10 +30,6 @@ public class OrderDetailModel {
     
     @Column(name = "product_id")
     private String productId;
-    
-    @Transient
-    @Column(name = "product_name")
-    private String productName;
     
     @Column(name = "quantity")
     private int quantity;
@@ -49,14 +47,13 @@ public class OrderDetailModel {
 	// TODO Auto-generated constructor stub
     }
 
-    public OrderDetailModel(int id, String tableId, String productId, String productName, int quantity,
+    public OrderDetailModel(int id, String tableId, String productId, int quantity,
 	    BigDecimal price, String createBy, LocalDateTime createDate, String orderId) {
 	super();
 	this.id = id;
 	this.tableId = tableId;
 	this.orderId = orderId;
 	this.productId = productId;
-	this.productName = productName;
 	this.quantity = quantity;
 	this.price = price;
 	this.createBy = createBy;
@@ -85,14 +82,6 @@ public class OrderDetailModel {
 
     public void setProductId(String productId) {
 	this.productId = productId;
-    }
-
-    public String getProductName() {
-	return productName;
-    }
-
-    public void setProductName(String productName) {
-	this.productName = productName;
     }
 
     public int getQuantity() {
@@ -138,7 +127,7 @@ public class OrderDetailModel {
     @Override
     public String toString() {
 	return "OrderDetailModel [id=" + id + ", orderId=" + orderId + ", tableId=" + tableId + ", productId="
-		+ productId + ", productName=" + productName + ", quantity=" + quantity + ", price=" + price
+		+ productId  + ", quantity=" + quantity + ", price=" + price
 		+ ", createBy=" + createBy + ", createDate=" + createDate + "]";
     }
 
