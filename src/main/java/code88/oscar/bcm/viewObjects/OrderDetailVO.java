@@ -8,7 +8,7 @@ public class OrderDetailVO {
 
     private String orderId;
     private String productName;
-    private String quantity;
+    private int quantity;
     private String price;
     private String createBy;
     private String createDate;
@@ -17,7 +17,7 @@ public class OrderDetailVO {
 	// TODO Auto-generated constructor stub
     }
 
-    public OrderDetailVO(String orderId, String productName, String quantity, String price, String createBy,
+    public OrderDetailVO(String orderId, String productName, int quantity, String price, String createBy,
 	    String createDate) {
 	super();
 	this.orderId = orderId;
@@ -44,11 +44,11 @@ public class OrderDetailVO {
 	this.productName = productName;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
 	return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
 	this.quantity = quantity;
     }
 

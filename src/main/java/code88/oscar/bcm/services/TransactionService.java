@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 
 import code88.oscar.bcm.request.SaveTransactionRequest;
+import code88.oscar.bcm.request.TransactionDetailRequest;
+import code88.oscar.bcm.viewObjects.TransactionDetailVO;
 import code88.oscar.bcm.viewObjects.TransactionVO;
 
 /**
@@ -23,4 +25,6 @@ public interface TransactionService {
     String saveTransaction(SaveTransactionRequest request);
     
     String updateStatusTransaction(Date date);
+    
+    TransactionDetailVO getTransactionDetail(TransactionDetailRequest request);
 }

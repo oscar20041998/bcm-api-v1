@@ -3,6 +3,7 @@ package code88.oscar.bcm.services;
 import java.util.List;
 
 import code88.oscar.bcm.request.OrderDetailRequest;
+import code88.oscar.bcm.request.TransactionDetailRequest;
 import code88.oscar.bcm.viewObjects.OrderDetailVO;
 
 /**
@@ -13,5 +14,5 @@ public interface OrderDetailService {
 
     void saveOrderDetail(List<OrderDetailRequest>request, String tableId, String orderId);
     
-    List<OrderDetailVO> getListOrderDetailById(String id);
+    List<OrderDetailVO> getListOrderDetail(TransactionDetailRequest request);
 }

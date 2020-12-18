@@ -18,8 +18,10 @@ import code88.oscar.bcm.request.BankInfoPaymentRequest;
 import code88.oscar.bcm.request.EWalletPaymentRequest;
 import code88.oscar.bcm.request.OrderDetailRequest;
 import code88.oscar.bcm.request.SaveTransactionRequest;
+import code88.oscar.bcm.request.TransactionDetailRequest;
 import code88.oscar.bcm.services.OrderDetailService;
 import code88.oscar.bcm.services.TransactionService;
+import code88.oscar.bcm.viewObjects.TransactionDetailVO;
 import code88.oscar.bcm.viewObjects.TransactionVO;
 
 /**
@@ -152,5 +154,41 @@ public class TransactionServiceImplement implements TransactionService {
 	List<TransactionModel> listModel = transactionRepository.getAllTransactionByDate(date);
 	List<TransactionVO> listVO = mappingTransactionList(listModel);
 	return listVO;
+    }
+
+    @Override
+    public TransactionDetailVO getTransactionDetail(TransactionDetailRequest request) {
+	TransactionModel model = transactionRepository.getTransactionDetail(request.getTransactionId(),
+		request.getOrderId(), request.getTableId());
+	TransactionDetailVO vo = mappingTransactionDetail(model);
+	return vo;
+    }
+
+    TransactionDetailVO mappingTransactionDetail(TransactionModel model) {
+	TransactionDetailVO vo = new TransactionDetailVO();
+	vo.setTransactionId(model.getTransactionId());
+	vo.setOrderId(model.getOrderId());
+	vo.setTableId(model.getTableId());
+	vo.setTotalPrice(commonMethod.convertCurrencyToString(model.getTotalPrice()));
+	vo.setStatus(model.getStatus());
+	vo.setPaymentType(model.getPaymentType());
+	vo.setBankName(
+		model.getBankName() != null && !model.getBankName().isEmpty() ? model.getBankName() : "(Not apply)");
+	vo.setCardNumber(model.getCardNumber() != null && !model.getCardNumber().isEmpty() ? model.getCardNumber()
+		: "(Not apply)");
+	vo.setCardType(
+		model.getCardType() != null && !model.getCardType().isEmpty() ? model.getCardType() : "(Not apply)");
+	vo.setExpireDate(model.getExpireDate() != null && !model.getExpireDate().isEmpty() ? model.getExpireDate()
+		: "(Not apply)");
+	vo.setCvv(model.getCvv() != null && !model.getCvv().isEmpty() ? model.getCvv() : "(Not apply)");
+	vo.setProviderName(
+		model.getProviderName() != null && !model.getProviderName().isEmpty() ? model.getProviderName()
+			: "(Not apply)");
+	vo.setTransactionCode(
+		model.getTransactionCode() != null && !model.getTransactionCode().isEmpty() ? model.getTransactionCode()
+			: "(Not apply)");
+	vo.setCreateBy(model.getCreateBy());
+	vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));
+	return vo;
     }
 }

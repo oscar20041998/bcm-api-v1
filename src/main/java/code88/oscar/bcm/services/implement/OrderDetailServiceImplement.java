@@ -1,6 +1,7 @@
 package code88.oscar.bcm.services.implement;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import code88.oscar.bcm.common.CommonMethod;
 import code88.oscar.bcm.model.OrderDetailModel;
 import code88.oscar.bcm.repository.OrderDetailRepository;
 import code88.oscar.bcm.request.OrderDetailRequest;
+import code88.oscar.bcm.request.TransactionDetailRequest;
 import code88.oscar.bcm.services.OrderDetailService;
 import code88.oscar.bcm.viewObjects.OrderDetailVO;
 
@@ -59,9 +61,28 @@ public class OrderDetailServiceImplement implements OrderDetailService {
     }
 
     @Override
-    public List<OrderDetailVO> getListOrderDetailById(String id) {
-	// TODO Auto-generated method stub
-	return null;
+    public List<OrderDetailVO> getListOrderDetail(TransactionDetailRequest request) {
+	List<OrderDetailModel> listModel = orderDetailRepository.getListOrderDetail(request.getTransactionId(), request.getOrderId(), request.getTableId());
+	List<OrderDetailVO> listVO = mappingListDetailVO(listModel);
+	return listVO;
     }
 
+    /**
+     * @Function: mappingListDetailVO(...)
+     * @param: List<OrderDetailModel> listModel
+     * */
+    List<OrderDetailVO> mappingListDetailVO (List<OrderDetailModel> listModel){
+	List<OrderDetailVO> listVO = new ArrayList<>();
+	for(OrderDetailModel model : listModel) {
+	    OrderDetailVO vo = new OrderDetailVO();
+	    vo.setOrderId(model.getOrderId());
+	    vo.setProductName(model.getProductId());
+	    vo.setQuantity(model.getQuantity());
+	    vo.setPrice(commonMethod.convertCurrencyToString(model.getPrice()));
+	    vo.setCreateBy(model.getCreateBy());
+	    vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));
+	    listVO.add(vo);
+	}
+	return listVO;
+    }
 }

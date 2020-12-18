@@ -26,9 +26,13 @@ import code88.oscar.bcm.common.MessageCommon;
 import code88.oscar.bcm.common.PaymentTypeCommon;
 import code88.oscar.bcm.common.StatusCommon;
 import code88.oscar.bcm.request.SaveTransactionRequest;
+import code88.oscar.bcm.request.TransactionDetailRequest;
 import code88.oscar.bcm.services.AccountUserService;
+import code88.oscar.bcm.services.OrderDetailService;
 import code88.oscar.bcm.services.TransactionService;
 import code88.oscar.bcm.viewObjects.CountPaymentTypeVO;
+import code88.oscar.bcm.viewObjects.OrderDetailVO;
+import code88.oscar.bcm.viewObjects.TransactionDetailVO;
 import code88.oscar.bcm.viewObjects.TransactionVO;
 
 /**
@@ -44,6 +48,9 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     @Autowired
     private AccountUserService accountUserService;
@@ -235,6 +242,37 @@ public class TransactionController {
 	}
     }
 
+    @RequestMapping(value = "/get-transaction-detail/{accountUserValid}")
+    public ResponseEntity<Map<String, Object>> getTransactionDetail(
+	    @PathVariable("accountUserValid") String accountUserValid, @RequestBody TransactionDetailRequest request) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_GET_TRANSACTION_DETAIL);
+	Map<String, Object> map = new HashMap<>();
+	try {
+	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
+	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
+	    if (isAdmin == true || isManager == true) {
+		TransactionDetailVO transactionDetail = transactionService.getTransactionDetail(request);
+		List<OrderDetailVO> listOrdered = orderDetailService.getListOrderDetail(request);
+		map.put("transactionDetail", transactionDetail);
+		map.put("listOrdered", listOrdered);
+		LOGGER.log(Level.INFO, MessageCommon.GET_TRANSACTION_DETAIL_SUCCESS);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	    } else {
+		LOGGER.log(Level.INFO, MessageCommon.GET_TRANSACTION_DETAIL_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    LOGGER.log(Level.INFO, MessageCommon.GET_TRANSACTIONS_FAILED);
+	    LOGGER.log(Level.ERROR, ex.getMessage());
+	    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+    }
+
     /**
      * @Function: getTotalPriceOrdered(...)
      */
@@ -254,16 +292,20 @@ public class TransactionController {
     CountPaymentTypeVO countPaymentType(List<TransactionVO> listVO) {
 	int card = 0;
 	int cash = 0;
+	int electronic = 0;
 	CountPaymentTypeVO countResult = new CountPaymentTypeVO();
 	for (TransactionVO vo : listVO) {
 	    if (vo.getPaymentType().equals(PaymentTypeCommon.CASH_OPTION)) {
 		cash++;
-	    } else {
+	    } else if (vo.getCardType().equals(PaymentTypeCommon.CARD_OPTION)) {
 		card++;
+	    } else {
+		electronic++;
 	    }
 	}
 	countResult.setCountCardOption(card);
 	countResult.setCountCashOption(cash);
+	countResult.setElectronicWalletOption(electronic);
 	return countResult;
     }
 }

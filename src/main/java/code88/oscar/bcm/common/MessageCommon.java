@@ -228,6 +228,13 @@ public class MessageCommon {
     public static final String GET_TRANSACTIONS_SUCCESS = "GET TRANSACTIONS SUCCESS";
 
     public static final String GET_TRANSACTIONS_FAILED = "GET TRANSACTIONS FAILED";
+    
+    public static final String START_GET_TRANSACTION_DETAIL = "GET TRANSACTION DETAIL";
+    
+    public static final String GET_TRANSACTION_DETAIL_SUCCESS = "GET TRANSACTION DETAIL SUCCESS";
+
+    public static final String GET_TRANSACTION_DETAIL_FAILED = "GET TRANSACTION DETAIL FAILED";
+
 
     // IMAGE PRODUCT
 

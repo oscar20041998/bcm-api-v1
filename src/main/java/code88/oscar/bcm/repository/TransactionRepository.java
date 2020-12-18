@@ -43,6 +43,32 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, S
 	    	+ " 	DATE(create_date) = DATE(:pDate) "
 	    	+ " ORDER BY create_date DESC ";
     
+    public static final String sql_getTransactionDetail = ""
+    	+ " SELECT"
+    	+ "	txn.transaction_id, "
+    	+ "	txn.order_id, "
+    	+ "	txn.table_id, "
+    	+ "	txn.total_price, "
+    	+ "	txn.status, "
+    	+ "	txn.payment_type, "
+    	+ "	txn.bank_name, "
+    	+ "	txn.card_type, "
+    	+ "	txn.card_number, "
+    	+ "	txn.expire_date_card, "
+    	+ "	txn.cvv, "
+    	+ "	txn.provider_name, "
+    	+ "	txn.transaction_code, "
+    	+ "	txn.create_by, "
+    	+ "	txn.create_date "
+    	+ " FROM "
+    	+ "	transaction txn"
+    	+ " LEFT JOIN position p ON txn.table_id = p.position_id "
+    	+ " LEFT JOIN order_detail ord ON txn.order_id = ord.order_id "
+    	+ " WHERE "
+    	+ "	txn.transaction_id = :pTransactionId AND "
+    	+ "	txn.order_id = :pOrderId AND "
+    	+ "	txn.table_id = :pTableId ";
+    
     @Query(value = sql_getAllTransaction, nativeQuery = true)
     List<TransactionModel> getAllTransaction();
     
@@ -54,5 +80,8 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, S
     
     @Query(value = sql_getALlTransactionsByDate, nativeQuery = true)
     List<TransactionModel> getAllTransactionByDate(@Param("pDate") Date date);
+    
+    @Query(value = sql_getTransactionDetail, nativeQuery = true)
+    TransactionModel getTransactionDetail(@Param("pTransactionId") String transactionId, @Param("pOrderId") String orderId, @Param("pTableId") String tableId);
     
 }
