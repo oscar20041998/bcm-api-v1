@@ -33,9 +33,9 @@ import code88.oscar.bcm.services.UserService;
 import code88.oscar.bcm.viewObjects.AccountUserVO;
 import code88.oscar.bcm.viewObjects.ProfileUserVO;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping(value = "/api/account")
 public class AccountUserController {
 
     private static final Logger LOGGER = LogManager.getLogger(AccountUserController.class);
