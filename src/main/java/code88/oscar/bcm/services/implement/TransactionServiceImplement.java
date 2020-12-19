@@ -91,7 +91,7 @@ public class TransactionServiceImplement implements TransactionService {
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
 
 	    // Save order detail
-	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId);
+	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
 
 	    message = StatusCommon.SUCCESS;
 	    positionRepository.closeTableById(request.getTableId());
@@ -174,7 +174,7 @@ public class TransactionServiceImplement implements TransactionService {
 	vo.setPaymentType(model.getPaymentType());
 	vo.setBankName(
 		model.getBankName() != null && !model.getBankName().isEmpty() ? model.getBankName() : "(Not apply)");
-	vo.setCardNumber(model.getCardNumber() != null && !model.getCardNumber().isEmpty() ? model.getCardNumber()
+	vo.setCardNumber(model.getCardNumber() != null && !model.getCardNumber().isEmpty() ? commonMethod.maskCardNumber(model.getCardNumber())
 		: "(Not apply)");
 	vo.setCardType(
 		model.getCardType() != null && !model.getCardType().isEmpty() ? model.getCardType() : "(Not apply)");

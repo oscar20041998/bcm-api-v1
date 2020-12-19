@@ -1,6 +1,5 @@
 package code88.oscar.bcm.request;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -12,7 +11,7 @@ public class SaveProductRequest {
     private String productId;
     private String categoryId;
     private String productName;
-    private BigDecimal price;
+    private String price;
     private String image;
     private String createBy;
     private LocalDateTime createDate;
@@ -20,7 +19,7 @@ public class SaveProductRequest {
 	super();
 	// TODO Auto-generated constructor stub
     }
-    public SaveProductRequest(String productId, String categoryId, String productName, BigDecimal price,
+    public SaveProductRequest(String productId, String categoryId, String productName, String price,
 	    String createBy, LocalDateTime createDate, String image) {
 	super();
 	this.productId = productId;
@@ -49,10 +48,10 @@ public class SaveProductRequest {
     public void setProductName(String productName) {
         this.productName = productName;
     }
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
     }
     public String getCreateBy() {

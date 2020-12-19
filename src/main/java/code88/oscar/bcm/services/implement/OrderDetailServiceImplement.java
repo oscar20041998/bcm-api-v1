@@ -29,7 +29,7 @@ public class OrderDetailServiceImplement implements OrderDetailService {
     private OrderDetailRepository orderDetailRepository;
 
     @Override
-    public void saveOrderDetail(List<OrderDetailRequest> requestList, String tableId, String orderId) {
+    public void saveOrderDetail(List<OrderDetailRequest> requestList, String tableId, String orderId, String createBy) {
 	try {
 	    for (OrderDetailRequest rq : requestList) {
 		String pr = rq.getPriceConvert().replace(",", "");
@@ -40,7 +40,7 @@ public class OrderDetailServiceImplement implements OrderDetailService {
 		model.setProductId(rq.getProductId());
 		model.setQuantity(rq.getQuantity());
 		model.setPrice(price);
-		model.setCreateBy(rq.getCreateBy());
+		model.setCreateBy(createBy);
 		model.setCreateDate(commonMethod.getDateTimeNow());
 		orderDetailRepository.save(model);
 	    }

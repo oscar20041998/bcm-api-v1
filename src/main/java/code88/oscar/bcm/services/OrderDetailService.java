@@ -12,7 +12,7 @@ import code88.oscar.bcm.viewObjects.OrderDetailVO;
  * */
 public interface OrderDetailService {
 
-    void saveOrderDetail(List<OrderDetailRequest>request, String tableId, String orderId);
+    void saveOrderDetail(List<OrderDetailRequest>request, String tableId, String orderId, String createBy);
     
     List<OrderDetailVO> getListOrderDetail(TransactionDetailRequest request);
 }

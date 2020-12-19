@@ -1,5 +1,6 @@
 package code88.oscar.bcm.services.implement;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +72,15 @@ public class ProductServiceImplement implements ProductService {
      * */
     ProductModel mappingProductModel(SaveProductRequest request) {
 	ProductModel model = new ProductModel();
+	String pr = request.getPrice().replace(",", "");
+	    BigDecimal price = new BigDecimal(pr);
 	model.setProductId(request.getProductId() == null || request.getProductId().isEmpty()
 		? "PRD" + commonMethod.convertDateTimeNowToString()
 		: request.getProductId());
 	model.setCategoryId(request.getCategoryId());
 	model.setProductName(request.getProductName());
 	model.setImage(request.getImage().getBytes());
-	model.setPrice(request.getPrice());
+	model.setPrice(price);
 	model.setCreateBy(request.getCreateBy());
 	model.setCreateDate(commonMethod.getDateTimeNow());
 	return model;
