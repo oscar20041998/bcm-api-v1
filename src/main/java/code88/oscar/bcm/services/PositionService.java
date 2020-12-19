@@ -15,4 +15,6 @@ public interface PositionService {
     int opening();
     
     int closed();
+    
+    void moveTableCurrent(String currentTable, String newTable);
 }

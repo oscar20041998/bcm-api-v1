@@ -235,7 +235,6 @@ public class AccountUserController {
 	    boolean isManager = accountUserService.isMangerRole(accountValid);
 	    if (isAdmin == true || isManager == true) {
 		listResult = accountUserService.getListAccountUser();
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNTS, StatusCommon.SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_ACCOUNT_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<List<AccountUserVO>>(listResult, HttpStatus.OK);

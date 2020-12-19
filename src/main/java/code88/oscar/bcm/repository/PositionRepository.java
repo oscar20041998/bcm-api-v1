@@ -20,6 +20,11 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
     public final static String sql_openTableById = "UPDATE position SET position_status ='" + StatusCommon.OPENING +"' WHERE position_id = :tableId";
 
     public final static String sql_closeTableById = "UPDATE position SET position_status ='" + StatusCommon.CLOSED +"' WHERE position_id = :tableId";
+    
+    public final static String sql_moveCurrentTable = 
+	    "UPDATE order_product "
+	    + " SET position_id = :pNewTable "
+	    + " WHERE position_id = :pCurrentTable";
 
     @Transactional
     @Modifying
@@ -30,5 +35,10 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
     @Modifying
     @Query(value = sql_closeTableById, nativeQuery = true)
     void closeTableById(@Param("tableId") String tableId);
+    
+    @Transactional
+    @Modifying
+    @Query(value = sql_moveCurrentTable, nativeQuery = true)
+    void moveCurrentTable(@Param("pCurrentTable") String currentTable, @Param("pNewTable") String newTable);
 
 }

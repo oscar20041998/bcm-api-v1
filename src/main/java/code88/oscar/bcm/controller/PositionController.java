@@ -64,7 +64,6 @@ public class PositionController {
 		    map.put("positions", result);
 		    map.put("isOpening", opening);
 		    map.put("isClosed", closed);
-		    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_ALL_POSITION_SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -88,5 +87,33 @@ public class PositionController {
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_ALL_POSITION_FAILED);
 	}
 	return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @RequestMapping(value = "/move-current-table/{currentTable}/{newTable}/{accountUserValid}", method = RequestMethod.POST)
+    public ResponseEntity<String> moveCurrentTable(@PathVariable("currentTable") String currenTable,
+	    @PathVariable("newTable") String newTable, @PathVariable("accountUserValid") String accountUserValid) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_MOVE_CURRENT_POSITION);
+	try {
+	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
+	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
+	    boolean isStaff = accountUserService.isStaffRole(accountUserValid);
+	    if (isManager == true || isAdmin == true || isStaff == true) {
+		positionService.moveTableCurrent(currenTable, newTable);
+		LOGGER.log(Level.INFO, MessageCommon.MOVE_CURRENT_POSITION_SUCCESS);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<String>(MessageCommon.MOVE_CURRENT_POSITION_SUCCESS, HttpStatus.OK);
+	    } else {
+		LOGGER.log(Level.INFO, MessageCommon.MOVE_POSITION_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<String>(MessageCommon.NOT_HAVE_PERMISSION, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    LOGGER.log(Level.INFO, MessageCommon.MOVE_POSITION_FAILED);
+	    LOGGER.log(Level.INFO, ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.LINE);
+	    return new ResponseEntity<String>(MessageCommon.MOVE_POSITION_FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
     }
 }

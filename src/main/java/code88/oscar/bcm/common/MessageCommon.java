@@ -184,6 +184,12 @@ public class MessageCommon {
     public static final String GET_ALL_POSITION_SUCCESS = "GET ALL POSITION SUCCESS";
 
     public static final String GET_ALL_POSITION_FAILED = "GET ALL POSITION FAILED";
+    
+    public static final String START_MOVE_CURRENT_POSITION = "WE STARTED TO MOVE CURRENT TABLE";
+
+    public static final String MOVE_CURRENT_POSITION_SUCCESS = "MOVE CURRENT TABLE SUCCESS";
+
+    public static final String MOVE_POSITION_FAILED = "MOVE CURRENT POSITION FAILED";
 
     // FOR ORDER PRODUCT
     public static final String START_SAVE_ORDER = "WE STARTED TO SAVE ORDER PRODUCT";
@@ -330,4 +336,7 @@ public class MessageCommon {
     public static final String ENABLE_CARD_TYPE_SUCCESS = "ENABLED CARD TYPE SUCCESS";;
 
     public static final String ENABLE_CARD_TYPE_FAILED = "ENABLED CARD TYPE FAILED";
+    
+    // POSITION 
+    
 }

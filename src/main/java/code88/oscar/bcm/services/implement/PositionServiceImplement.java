@@ -83,4 +83,11 @@ public class PositionServiceImplement implements PositionService {
 	}
 	return result;
     }
+
+    @Override
+    public void moveTableCurrent(String currentTable, String newTable) {
+	positionRepository.moveCurrentTable(currentTable, newTable);
+	positionRepository.closeTableById(currentTable);
+	positionRepository.openTableById(newTable);
+    }
 }

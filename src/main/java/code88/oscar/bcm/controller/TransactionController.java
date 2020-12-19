@@ -297,7 +297,7 @@ public class TransactionController {
 	for (TransactionVO vo : listVO) {
 	    if (vo.getPaymentType().equals(PaymentTypeCommon.CASH_OPTION)) {
 		cash++;
-	    } else if (vo.getCardType().equals(PaymentTypeCommon.CARD_OPTION)) {
+	    } else if (vo.getPaymentType().equals(PaymentTypeCommon.CARD_OPTION)) {
 		card++;
 	    } else {
 		electronic++;
