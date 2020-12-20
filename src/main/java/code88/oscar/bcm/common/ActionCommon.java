@@ -72,5 +72,7 @@ public class ActionCommon {
     public final static String SHOW_ORDER_PENDING = "Show all order product pending";
 
     public final static String CHECK_DONE_ORDER_PENDING = "Check done order ";
+    
+    public final static String SPLIT_PRODUCT = "Split order product";
 
 }

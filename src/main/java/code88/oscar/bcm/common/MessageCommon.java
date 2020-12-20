@@ -221,6 +221,13 @@ public class MessageCommon {
     public static final String UPDATE_PRODUCT_PENDING_SUCCESS = "UPDATE ORDER PRODUCT PENDING SUCCESS";
 
     public static final String UPDATE_ORDER_PRODUCT_PENDING_FAILED = "UPDATE ORDER PRODUCT PENDING FAILED";
+    
+    public static final String START_SPLIT_ORDER_PRODUCT = "START SPLIT ORDER PRODUCT ";
+
+    public static final String SPLIT_ORDER_PRODUCT_SUCCESS = "SPLIT ORDER PRODUCT SUCCESS";
+    
+    public static final String SPLIT_ORDER_PRODUCT_FAILED = "SPLIT ORDER PRODUCT FAILED";
+
 
     // FOR TRANSACTION
     public static final String START_SAVE_TRANSACTION = "WE STARTED TO SAVE TRANSACTION";

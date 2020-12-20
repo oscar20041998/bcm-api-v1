@@ -98,8 +98,9 @@ public class OrderProductServiceImplement implements OrderProductService {
 	    vo.setProductId(model.getProductId());
 	    vo.setProductName(model.getProductName());
 	    vo.setQuantity(model.getQuantity());
+	    vo.setPrice(model.getPrice());
 	    vo.setPriceConvert(commonMethod.convertCurrencyToString(model.getPrice()));
-	    vo.setStatusProdct(model.getStatusProduct());
+	    vo.setStatusProduct(model.getStatusProduct());
 	    listVO.add(vo);
 	}
 	return listVO;

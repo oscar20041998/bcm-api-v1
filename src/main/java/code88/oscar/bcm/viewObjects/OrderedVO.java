@@ -1,5 +1,7 @@
 package code88.oscar.bcm.viewObjects;
 
+import java.math.BigDecimal;
+
 /**
  * @FileName: OrderedVO.java
  * @since:1/11/2020
@@ -10,6 +12,7 @@ public class OrderedVO {
     private String productName;
     private String priceConvert;
     private int quantity;
+    private BigDecimal price;
     private String statusProduct;
 
     public OrderedVO() {
@@ -17,13 +20,23 @@ public class OrderedVO {
 	// TODO Auto-generated constructor stub
     }
 
-    public OrderedVO(String productName, String priceConvert, int quantity, String statusProduct, String productId) {
+    public OrderedVO(String productId, String productName, String priceConvert, int quantity, BigDecimal price,
+	    String statusProduct) {
 	super();
+	this.productId = productId;
 	this.productName = productName;
 	this.priceConvert = priceConvert;
 	this.quantity = quantity;
-	this.productId = productId;
+	this.price = price;
 	this.statusProduct = statusProduct;
+    }
+
+    public String getProductId() {
+	return productId;
+    }
+
+    public void setProductId(String productId) {
+	this.productId = productId;
     }
 
     public String getProductName() {
@@ -50,33 +63,26 @@ public class OrderedVO {
 	this.quantity = quantity;
     }
 
-    public String getStatusProdct() {
-	return statusProduct;
+    public BigDecimal getPrice() {
+	return price;
     }
 
-    public void setStatusProdct(String statusProdct) {
-	this.statusProduct = statusProdct;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setPrice(BigDecimal price) {
+	this.price = price;
     }
 
     public String getStatusProduct() {
-        return statusProduct;
+	return statusProduct;
     }
 
     public void setStatusProduct(String statusProduct) {
-        this.statusProduct = statusProduct;
+	this.statusProduct = statusProduct;
     }
 
     @Override
     public String toString() {
 	return "OrderedVO [productId=" + productId + ", productName=" + productName + ", priceConvert=" + priceConvert
-		+ ", quantity=" + quantity + ", statusProduct=" + statusProduct + "]";
+		+ ", quantity=" + quantity + ", price=" + price + ", statusProduct=" + statusProduct + "]";
     }
+
 }

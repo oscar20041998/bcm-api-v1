@@ -303,4 +303,47 @@ public class OrderProductController {
 	return new ResponseEntity<String>(MessageCommon.UPDATE_ORDER_PRODUCT_PENDING_FAILED,
 		HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @RequestMapping(value = "/split-order/{accountUserValid}/{currentTable}/{selectedTable}", method = RequestMethod.POST)
+    public ResponseEntity<String> splitOrderProduct(@PathVariable("accountUserValid") String accountUserValid,
+	    @PathVariable("currentTable") String currentTable, @PathVariable("selectedTable") String selectedTable,
+	    @RequestBody List<OrderProductRequest> listRequest) {
+	String userName = accountUserService.getUserNameByAccountId(accountUserValid);
+	try {
+	    LOGGER.log(Level.INFO, MessageCommon.LINE);
+	    LOGGER.log(Level.INFO, MessageCommon.START_GET_ORDER_PRODUCT_PENDING);
+	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
+	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
+	    boolean isStaff = accountUserService.isStaffRole(accountUserValid);
+	    if (isAdmin == true || isManager == true || isStaff == true) {
+		String status = "";
+		for (OrderProductRequest request : listRequest) {
+		    request.setTableId(selectedTable);
+		    request.setCreateBy(userName);
+		    status = orderProductService.saveOrder(request);
+		    if (status.equals(StatusCommon.SUCCESS)) {
+			orderProductService.deleteOrderProduct(currentTable, request.getProductId());
+		    }
+		}
+		commonMethod.insertSystemLog(userName, ActionCommon.SPLIT_PRODUCT + " " + currentTable,
+			StatusCommon.SUCCESS);
+		return new ResponseEntity<String>(status, HttpStatus.OK);
+	    } else {
+		commonMethod.insertSystemLog(userName, ActionCommon.SPLIT_PRODUCT + " " + currentTable,
+			StatusCommon.FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_PENDING_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<String>(MessageCommon.NOT_HAVE_PERMISSION, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    commonMethod.insertSystemLog(userName, ActionCommon.SPLIT_PRODUCT + " " + currentTable,
+		    StatusCommon.FAILED);
+	    LOGGER.log(Level.INFO, MessageCommon.SPLIT_ORDER_PRODUCT_FAILED);
+	    LOGGER.log(Level.INFO, ex.getMessage());
+	    LOGGER.log(Level.INFO, MessageCommon.LINE);
+	    return new ResponseEntity<String>(MessageCommon.SPLIT_ORDER_PRODUCT_FAILED,
+		    HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+    }
 }
