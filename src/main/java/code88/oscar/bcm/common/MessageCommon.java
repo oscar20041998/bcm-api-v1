@@ -358,7 +358,7 @@ public class MessageCommon {
 
     public static final String CARD_TYPE = "CARD TYPE: ";
 
-    public static final String EXPRIE_DATE = "EXPRIE DATE";
+    public static final String EXPRIE_DATE = "EXPRIE DATE: ";
     
     public static final String CVV = "CVV: ";
     

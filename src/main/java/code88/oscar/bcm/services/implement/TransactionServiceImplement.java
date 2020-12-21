@@ -102,7 +102,9 @@ public class TransactionServiceImplement implements TransactionService {
 	    transactionRepository.save(transactionModel);
 
 	    // Save order detail
-	    sendEmail(request);
+	    if (request.getCustomerEmail() != null && !request.getCustomerEmail().isEmpty()) {
+		sendEmail(request);
+	    }
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
 	    positionRepository.closeTableById(request.getTableId());
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
@@ -210,51 +212,68 @@ public class TransactionServiceImplement implements TransactionService {
     void sendEmail(SaveTransactionRequest request) {
 	try {
 	    String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + commonMethod.convertDateTimeNowToString();
-	    SimpleMailMessage message = new SimpleMailMessage();
 	    String sendFrom = userService.getEmailByUserId(request.getUserId());
 	    List<OrderProductModel> listOrder = orderProductRepository.getListOrderByTable(request.getTableId());
-	    BankInfoPaymentRequest bankRequest = request.getBankInfoRequest();
-	    EWalletPaymentRequest eWalletRequest = request.geteWalletRequest();
-	    message.setFrom("noreply@gmail.com");
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    String content = setContentEmail(listOrder, request);
+	    message.setFrom(sendFrom);
 	    message.setTo(request.getCustomerEmail());
 	    message.setSubject(subjectMail);
-	    message.setText(MessageCommon.EMAIL_ORDER_DETAIL);
-	    for (OrderProductModel order : listOrder) {
-		message.setText(order.getProductName() + " x " + order.getQuantity() + " : "
-			+ commonMethod.convertCurrencyToString(order.getPrice()));
-	    }
-	    message.setText(MessageCommon.PAYMENT_TYPE + request.getPaymentType());
-	    message.setText(
-		    MessageCommon.BANK_NAME + bankRequest.getBankName() != null && bankRequest.getBankName() != ""
-			    ? bankRequest.getBankName()
-			    : "(Not apply)");
-	    message.setText(
-		    MessageCommon.CAR_NUMBER + bankRequest.getCardNumber() != null && bankRequest.getCardNumber() != ""
-			    ? commonMethod.maskCardNumber(bankRequest.getCardNumber())
-			    : "(Not apply)");
-	    message.setText(
-		    MessageCommon.CARD_TYPE + bankRequest.getCardType() != null && bankRequest.getCardType() != ""
-			    ? bankRequest.getCardType()
-			    : "(Not apply)");
-	    message.setText(MessageCommon.CARD_OWNER_NAME + bankRequest.getCardOwnerName() != null
-		    && bankRequest.getCardOwnerName() != "" ? bankRequest.getCardOwnerName() : "(Not apply)");
-	    message.setText(
-		    MessageCommon.EXPRIE_DATE + bankRequest.getExpireDate() != null && bankRequest.getExpireDate() != ""
-			    ? bankRequest.getExpireDate()
-			    : "(Not apply)");
-	    message.setText(MessageCommon.CVV + bankRequest.getCvv() != null && bankRequest.getCvv() != ""
-		    ? bankRequest.getCvv()
-		    : "(Not apply)");
-	    message.setText(MessageCommon.ELECTRONIC_WALLET + eWalletRequest.getProviderName() != null
-		    && eWalletRequest.getProviderName() != "" ? eWalletRequest.getProviderName() : "(Not apply)");
-	    message.setText(MessageCommon.TRANSACTION_CODE + eWalletRequest.getTransactionCode() != null
-		    && eWalletRequest.getTransactionCode() != "" ? eWalletRequest.getTransactionCode() : "(Not apply)");
-	    message.setText(MessageCommon.TOTAL_PRICE + request.getTotalPrice() != null && request.getTotalPrice() != ""
-		    ? request.getTotalPrice()
-		    : "(Not apply)");
+	    message.setSentDate(new Date(8));
+	    message.setText(content);
 	    emailSender.send(message);
 	} catch (Exception ex) {
 	    System.err.print(ex.getMessage());
 	}
+    }
+
+    String setContentEmail(List<OrderProductModel> listOrder, SaveTransactionRequest request) {
+	String content = "";
+	BankInfoPaymentRequest bankRequest = request.getBankInfoRequest();
+	EWalletPaymentRequest eWalletRequest = request.geteWalletRequest();
+
+	String paymentType = request.getPaymentType();
+
+	String listOrderString = "";
+	for (OrderProductModel order : listOrder) {
+	    listOrderString += listOrderString.concat("\t").concat(order.getProductName() + " x " + order.getQuantity()
+		    + " : " + commonMethod.convertCurrencyToString(order.getPrice())).concat("\n");
+	}
+	// Set info for pamyent by card
+	String bankName = bankRequest.getBankName() != null && !bankRequest.getBankName().isEmpty()
+		? bankRequest.getBankName()
+		: "(Not apply)";
+	String cardNumber = bankRequest.getCardNumber() != null && !bankRequest.getCardNumber().isEmpty()
+		? commonMethod.maskCardNumber(bankRequest.getCardNumber())
+		: "(Not apply)";
+	String cardType = bankRequest.getCardType() != null && !bankRequest.getCardType().isEmpty()
+		? bankRequest.getCardType()
+		: "(Not apply)";
+	String ownerName = bankRequest.getCardOwnerName() != null && bankRequest.getCardOwnerName() != ""
+		? bankRequest.getCardOwnerName()
+		: "(Not apply)";
+	String expireDate = bankRequest.getExpireDate() != null && bankRequest.getExpireDate() != ""
+		? bankRequest.getExpireDate()
+		: "(Not apply)";
+	String cvv = bankRequest.getCvv() != null && bankRequest.getCvv() != "" ? bankRequest.getCvv() : "(Not apply)";
+
+	// Set info for payment product by electronic wallet
+	String provider = eWalletRequest.getProviderName() != null && eWalletRequest.getProviderName() != ""
+		? eWalletRequest.getProviderName()
+		: "(Not apply)";
+	String transactionCode = eWalletRequest.getTransactionCode() != null
+		&& eWalletRequest.getTransactionCode() != "" ? eWalletRequest.getTransactionCode() : "(Not apply)";
+	String totalPrice = request.getTotalPrice() != null && request.getTotalPrice() != "" ? request.getTotalPrice()
+		: "0";
+	content += content.concat(MessageCommon.EMAIL_ORDER_DETAIL).concat("\n").concat(listOrderString)
+		.concat(MessageCommon.PAYMENT_TYPE + paymentType).concat("\n")
+		.concat(MessageCommon.BANK_NAME + bankName).concat("\n").concat(MessageCommon.CAR_NUMBER + cardNumber)
+		.concat("\n").concat(MessageCommon.CARD_TYPE + cardType).concat("\n")
+		.concat(MessageCommon.CARD_OWNER_NAME + ownerName).concat("\n")
+		.concat(MessageCommon.EXPRIE_DATE + expireDate).concat("\n").concat(MessageCommon.CVV + cvv)
+		.concat("\n").concat(MessageCommon.ELECTRONIC_WALLET + provider).concat("\n")
+		.concat(MessageCommon.TRANSACTION_CODE + transactionCode).concat("\n")
+		.concat(MessageCommon.TOTAL_PRICE + totalPrice);
+	return content;
     }
 }
