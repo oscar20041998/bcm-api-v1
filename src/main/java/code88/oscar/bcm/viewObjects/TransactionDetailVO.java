@@ -19,6 +19,7 @@ public class TransactionDetailVO {
     private String cvv;
     private String providerName;
     private String transactionCode;
+    private String emailCustomer;
     private String createBy;
     private String createDate;
 
@@ -28,9 +29,10 @@ public class TransactionDetailVO {
 
     public TransactionDetailVO(String transactionId, String orderId, String tableId, String totalPrice, String status,
 	    String paymentType, String bankName, String cardType, String cardNumber, String expireDate, String cvv,
-	    String providerName, String transactionCode, String createBy, String createDate) {
+	    String providerName, String transactionCode, String createBy, String createDate, String emailCustomer) {
 	super();
 	this.transactionId = transactionId;
+	this.emailCustomer = emailCustomer;
 	this.orderId = orderId;
 	this.tableId = tableId;
 	this.totalPrice = totalPrice;
@@ -165,6 +167,14 @@ public class TransactionDetailVO {
 
     public void setCreateDate(String createDate) {
 	this.createDate = createDate;
+    }
+
+    public String getEmailCustomer() {
+	return emailCustomer;
+    }
+
+    public void setEmailCustomer(String emailCustomer) {
+	this.emailCustomer = emailCustomer;
     }
 
     @Override

@@ -43,19 +43,22 @@ public class TransactionModel {
 
     @Column(name = "bank_name")
     private String bankName;
-    
+
     @Column(name = "expire_date_card")
     private String expireDate;
-    
+
     @Column(name = "cvv")
     private String cvv;
 
     @Column(name = "provider_name")
     private String providerName;
-    
+
     @Column(name = "transaction_code")
     private String transactionCode;
-    
+
+    @Column(name = "email_customer")
+    private String emailCustomer;
+
     @Column(name = "create_by")
     private String createBy;
 
@@ -69,7 +72,8 @@ public class TransactionModel {
 
     public TransactionModel(String transactionId, String tableId, String orderId, BigDecimal totalPrice, String status,
 	    String paymentType, String cardType, String cardNumber, String bankName, String expireDate, String cvv,
-	    String createBy, LocalDateTime createDate, String transactionCode, String providerName) {
+	    String createBy, LocalDateTime createDate, String transactionCode, String providerName,
+	    String emailCustomer) {
 	super();
 	this.transactionId = transactionId;
 	this.tableId = tableId;
@@ -86,127 +90,135 @@ public class TransactionModel {
 	this.createBy = createBy;
 	this.createDate = createDate;
 	this.providerName = providerName;
+	this.emailCustomer = emailCustomer;
     }
 
     public String getTransactionId() {
-        return transactionId;
+	return transactionId;
     }
 
     public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+	this.transactionId = transactionId;
     }
 
     public String getTableId() {
-        return tableId;
+	return tableId;
     }
 
     public void setTableId(String tableId) {
-        this.tableId = tableId;
+	this.tableId = tableId;
     }
 
     public String getOrderId() {
-        return orderId;
+	return orderId;
     }
 
     public void setOrderId(String orderId) {
-        this.orderId = orderId;
+	this.orderId = orderId;
     }
 
     public BigDecimal getTotalPrice() {
-        return totalPrice;
+	return totalPrice;
     }
 
     public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+	this.totalPrice = totalPrice;
     }
 
     public String getStatus() {
-        return status;
+	return status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+	this.status = status;
     }
 
     public String getPaymentType() {
-        return paymentType;
+	return paymentType;
     }
 
     public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
+	this.paymentType = paymentType;
     }
 
     public String getCardType() {
-        return cardType;
+	return cardType;
     }
 
     public void setCardType(String cardType) {
-        this.cardType = cardType;
+	this.cardType = cardType;
     }
 
     public String getCardNumber() {
-        return cardNumber;
+	return cardNumber;
     }
 
     public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+	this.cardNumber = cardNumber;
     }
 
     public String getBankName() {
-        return bankName;
+	return bankName;
     }
 
     public void setBankName(String bankName) {
-        this.bankName = bankName;
+	this.bankName = bankName;
     }
 
     public String getExpireDate() {
-        return expireDate;
+	return expireDate;
     }
 
     public void setExpireDate(String expireDate) {
-        this.expireDate = expireDate;
+	this.expireDate = expireDate;
     }
 
     public String getCvv() {
-        return cvv;
+	return cvv;
     }
 
     public void setCvv(String cvv) {
-        this.cvv = cvv;
+	this.cvv = cvv;
     }
 
     public String getCreateBy() {
-        return createBy;
+	return createBy;
     }
 
     public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+	this.createBy = createBy;
     }
 
     public LocalDateTime getCreateDate() {
-        return createDate;
+	return createDate;
     }
 
     public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+	this.createDate = createDate;
     }
-    
 
     public String getTransactionCode() {
-        return transactionCode;
+	return transactionCode;
     }
 
     public void setTransactionCode(String transactionCode) {
-        this.transactionCode = transactionCode;
+	this.transactionCode = transactionCode;
     }
 
     public String getProviderName() {
-        return providerName;
+	return providerName;
     }
 
     public void setProviderName(String providerName) {
-        this.providerName = providerName;
+	this.providerName = providerName;
+    }
+
+    public String getEmailCustomer() {
+	return emailCustomer;
+    }
+
+    public void setEmailCustomer(String emailCustomer) {
+	this.emailCustomer = emailCustomer;
     }
 
     @Override

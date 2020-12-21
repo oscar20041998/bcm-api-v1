@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import code88.oscar.bcm.common.CommonMethod;
+import code88.oscar.bcm.common.MessageCommon;
 import code88.oscar.bcm.common.StatusCommon;
+import code88.oscar.bcm.model.OrderProductModel;
 import code88.oscar.bcm.model.TransactionModel;
 import code88.oscar.bcm.repository.OrderProductRepository;
 import code88.oscar.bcm.repository.PositionRepository;
@@ -21,6 +25,7 @@ import code88.oscar.bcm.request.SaveTransactionRequest;
 import code88.oscar.bcm.request.TransactionDetailRequest;
 import code88.oscar.bcm.services.OrderDetailService;
 import code88.oscar.bcm.services.TransactionService;
+import code88.oscar.bcm.services.UserService;
 import code88.oscar.bcm.viewObjects.TransactionDetailVO;
 import code88.oscar.bcm.viewObjects.TransactionVO;
 
@@ -45,6 +50,12 @@ public class TransactionServiceImplement implements TransactionService {
 
     @Autowired
     private CommonMethod commonMethod;
+
+    @Autowired
+    private JavaMailSender emailSender;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<TransactionVO> getAllTransactions() {
@@ -85,16 +96,18 @@ public class TransactionServiceImplement implements TransactionService {
 	    transactionModel.setTransactionCode(eWalletRequest.getTransactionCode());
 	    transactionModel.setProviderName(eWalletRequest.getProviderName());
 
+	    transactionModel.setEmailCustomer(request.getCustomerEmail());
 	    transactionModel.setCreateBy(request.getCreateBy());
 	    transactionModel.setCreateDate(commonMethod.getDateTimeNow());
 	    transactionRepository.save(transactionModel);
-	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
 
 	    // Save order detail
+	    sendEmail(request);
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
+	    positionRepository.closeTableById(request.getTableId());
+	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
 
 	    message = StatusCommon.SUCCESS;
-	    positionRepository.closeTableById(request.getTableId());
 
 	} catch (Exception ex) {
 	    System.err.print(ex.getMessage());
@@ -174,7 +187,8 @@ public class TransactionServiceImplement implements TransactionService {
 	vo.setPaymentType(model.getPaymentType());
 	vo.setBankName(
 		model.getBankName() != null && !model.getBankName().isEmpty() ? model.getBankName() : "(Not apply)");
-	vo.setCardNumber(model.getCardNumber() != null && !model.getCardNumber().isEmpty() ? commonMethod.maskCardNumber(model.getCardNumber())
+	vo.setCardNumber(model.getCardNumber() != null && !model.getCardNumber().isEmpty()
+		? commonMethod.maskCardNumber(model.getCardNumber())
 		: "(Not apply)");
 	vo.setCardType(
 		model.getCardType() != null && !model.getCardType().isEmpty() ? model.getCardType() : "(Not apply)");
@@ -187,8 +201,60 @@ public class TransactionServiceImplement implements TransactionService {
 	vo.setTransactionCode(
 		model.getTransactionCode() != null && !model.getTransactionCode().isEmpty() ? model.getTransactionCode()
 			: "(Not apply)");
+	vo.setEmailCustomer(model.getEmailCustomer());
 	vo.setCreateBy(model.getCreateBy());
 	vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));
 	return vo;
+    }
+
+    void sendEmail(SaveTransactionRequest request) {
+	try {
+	    String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + commonMethod.convertDateTimeNowToString();
+	    SimpleMailMessage message = new SimpleMailMessage();
+	    String sendFrom = userService.getEmailByUserId(request.getUserId());
+	    List<OrderProductModel> listOrder = orderProductRepository.getListOrderByTable(request.getTableId());
+	    BankInfoPaymentRequest bankRequest = request.getBankInfoRequest();
+	    EWalletPaymentRequest eWalletRequest = request.geteWalletRequest();
+	    message.setFrom("noreply@gmail.com");
+	    message.setTo(request.getCustomerEmail());
+	    message.setSubject(subjectMail);
+	    message.setText(MessageCommon.EMAIL_ORDER_DETAIL);
+	    for (OrderProductModel order : listOrder) {
+		message.setText(order.getProductName() + " x " + order.getQuantity() + " : "
+			+ commonMethod.convertCurrencyToString(order.getPrice()));
+	    }
+	    message.setText(MessageCommon.PAYMENT_TYPE + request.getPaymentType());
+	    message.setText(
+		    MessageCommon.BANK_NAME + bankRequest.getBankName() != null && bankRequest.getBankName() != ""
+			    ? bankRequest.getBankName()
+			    : "(Not apply)");
+	    message.setText(
+		    MessageCommon.CAR_NUMBER + bankRequest.getCardNumber() != null && bankRequest.getCardNumber() != ""
+			    ? commonMethod.maskCardNumber(bankRequest.getCardNumber())
+			    : "(Not apply)");
+	    message.setText(
+		    MessageCommon.CARD_TYPE + bankRequest.getCardType() != null && bankRequest.getCardType() != ""
+			    ? bankRequest.getCardType()
+			    : "(Not apply)");
+	    message.setText(MessageCommon.CARD_OWNER_NAME + bankRequest.getCardOwnerName() != null
+		    && bankRequest.getCardOwnerName() != "" ? bankRequest.getCardOwnerName() : "(Not apply)");
+	    message.setText(
+		    MessageCommon.EXPRIE_DATE + bankRequest.getExpireDate() != null && bankRequest.getExpireDate() != ""
+			    ? bankRequest.getExpireDate()
+			    : "(Not apply)");
+	    message.setText(MessageCommon.CVV + bankRequest.getCvv() != null && bankRequest.getCvv() != ""
+		    ? bankRequest.getCvv()
+		    : "(Not apply)");
+	    message.setText(MessageCommon.ELECTRONIC_WALLET + eWalletRequest.getProviderName() != null
+		    && eWalletRequest.getProviderName() != "" ? eWalletRequest.getProviderName() : "(Not apply)");
+	    message.setText(MessageCommon.TRANSACTION_CODE + eWalletRequest.getTransactionCode() != null
+		    && eWalletRequest.getTransactionCode() != "" ? eWalletRequest.getTransactionCode() : "(Not apply)");
+	    message.setText(MessageCommon.TOTAL_PRICE + request.getTotalPrice() != null && request.getTotalPrice() != ""
+		    ? request.getTotalPrice()
+		    : "(Not apply)");
+	    emailSender.send(message);
+	} catch (Exception ex) {
+	    System.err.print(ex.getMessage());
+	}
     }
 }

@@ -18,5 +18,7 @@ public interface UserService {
 	UserModel getUserProfile(String userId);
 	
 	List<UserModel> searchUserByCriteria(String criteria);
+	
+	String getEmailByUserId (String userId);
 
 }

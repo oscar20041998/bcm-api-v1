@@ -104,4 +104,9 @@ public class UserServiceImplement implements UserService {
     public List<UserModel> searchUserByCriteria(String criteria) {
 	return userRepository.searchListUserByCriteria(criteria);
     }
+
+    @Override
+    public String getEmailByUserId(String userId) {
+	return userRepository.getEmailUserById(userId);
+    }
 }

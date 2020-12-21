@@ -36,6 +36,11 @@ public interface UserRepository extends JpaRepository<UserModel, String> {
     + " address LIKE %:pCriteria% OR"
     + " id_card LIKE %:pCriteria% ";
 
+    public static final String sql_getEmailUserById= "SELECT email FROM user WHERE user_id = :pUserId";
+    
     @Query(value = sql_searchUSerByCriteria, nativeQuery = true)
     List<UserModel> searchListUserByCriteria(@Param("pCriteria") String criteria);
+    
+    @Query(value = sql_getEmailUserById, nativeQuery = true)
+    String getEmailUserById (@Param("pUserId") String userId);
 }

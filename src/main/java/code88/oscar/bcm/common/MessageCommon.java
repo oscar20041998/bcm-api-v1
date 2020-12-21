@@ -344,6 +344,31 @@ public class MessageCommon {
 
     public static final String ENABLE_CARD_TYPE_FAILED = "ENABLED CARD TYPE FAILED";
     
-    // POSITION 
+    // FOR MAIL
     
+    public static final String EMAIL_ORDER_DETAIL = "DETAIL ORDER: ";
+
+    public static final String PAYMENT_TYPE = "PAYMENT TYPE: ";
+    
+    public static final String BANK_NAME = "BANK NAME: ";
+    
+    public static final String CARD_OWNER_NAME = "CARD OWNER NAME: ";
+    
+    public static final String CAR_NUMBER = "CARD NUMBER: ";
+
+    public static final String CARD_TYPE = "CARD TYPE: ";
+
+    public static final String EXPRIE_DATE = "EXPRIE DATE";
+    
+    public static final String CVV = "CVV: ";
+    
+    public static final String ELECTRONIC_WALLET = "ELECTRONIC WALLET: ";
+
+    public static final String TRANSACTION_CODE = "TRANSACTION CODE: ";
+    
+    public static final String CREATE_BY = "CREATE BY: ";
+    
+    public static final String CREATE_DATE = "CREATE DATE: ";
+    
+    public static final String TOTAL_PRICE= "TOTAL PRICE: ";
 }
