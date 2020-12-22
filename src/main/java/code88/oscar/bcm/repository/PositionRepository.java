@@ -19,9 +19,19 @@ import code88.oscar.bcm.model.PositionModel;
 @Repository
 public interface PositionRepository extends JpaRepository<PositionModel, String>{
 
-    public final static String sql_openTableById = "UPDATE position SET position_status ='" + StatusCommon.OPENING +"' WHERE position_id = :tableId";
+    public final static String sql_openTableById = ""
+    	+ "UPDATE position "
+    	+ "SET position_status ='" + StatusCommon.OPENING +"', "
+    	+ "     last_update_by = :pCreateBy,"
+    	+ "    last_update_time = NOW()"
+    	+ "WHERE position_id = :tableId";
 
-    public final static String sql_closeTableById = "UPDATE position SET position_status ='" + StatusCommon.CLOSED +"' WHERE position_id = :tableId";
+    public final static String sql_closeTableById = ""
+    	+ "UPDATE position "
+    	+ "SET position_status ='" + StatusCommon.CLOSED +",' "
+    	+ "    last_update_by = :pCreateBy,"
+    	+ "    last_update_time = NOW()"
+    	+ "WHERE position_id = :tableId";
     
     public final static String sql_moveCurrentTable = 
 	    "UPDATE order_product "
@@ -51,12 +61,12 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
     @Transactional
     @Modifying
     @Query(value = sql_openTableById, nativeQuery = true)
-    void openTableById(@Param("tableId") String tableId);
+    void openTableById(@Param("tableId") String tableId,@Param("pCreateBy") String createBy);
     
     @Transactional
     @Modifying
     @Query(value = sql_closeTableById, nativeQuery = true)
-    void closeTableById(@Param("tableId") String tableId);
+    void closeTableById(@Param("tableId") String tableId, @Param("pCreateBy") String createBy);
     
     @Transactional
     @Modifying

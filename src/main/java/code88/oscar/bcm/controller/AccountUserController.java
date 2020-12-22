@@ -286,25 +286,6 @@ public class AccountUserController {
 	return new ResponseEntity<List<AccountUserVO>>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/get-list-account-login-nearly", method = RequestMethod.GET)
-    public ResponseEntity<List<AccountUserVO>> getListAccountLoginNearly() {
-	List<AccountUserVO> listResult = new ArrayList<>();
-	LOGGER.log(Level.INFO, MessageCommon.LINE);
-	LOGGER.log(Level.INFO, MessageCommon.START_GET_LIST_ACCOUNT_NEARLY);
-	try {
-	    listResult = accountUserService.getListAccountLoginNearly();
-	    LOGGER.log(Level.INFO, MessageCommon.GET_LIST_ACCOUNT_NEARLY_SUCCESS);
-	    LOGGER.log(Level.INFO, MessageCommon.LINE);
-	    return new ResponseEntity<List<AccountUserVO>>(listResult, HttpStatus.OK);
-
-	} catch (Exception ex) {
-	    LOGGER.log(Level.ERROR, ex.getMessage());
-	    LOGGER.log(Level.ERROR, MessageCommon.GET_LIST_ACCOUNT_NEARLY_FAILED);
-	    LOGGER.log(Level.INFO, MessageCommon.LINE);
-	    return new ResponseEntity<List<AccountUserVO>>(HttpStatus.NOT_FOUND);
-	}
-    }
-
     @RequestMapping( value = "/get-account-by-account-id/{accountId}/{accountIdValid}", method = RequestMethod.GET)
     public ResponseEntity<AccountUserVO> getAccountByAccountId(@PathVariable("accountId") String accountId,
 	    @PathVariable("accountIdValid") String accountIdValid) {

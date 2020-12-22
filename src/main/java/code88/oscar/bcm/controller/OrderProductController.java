@@ -196,7 +196,7 @@ public class OrderProductController {
 	    boolean isManager = accountUserService.isMangerRole(accountIdValid);
 	    boolean isStaff = accountUserService.isStaffRole(accountIdValid);
 	    if (isAdmin == true || isManager == true || isStaff == true) {
-		vo = orderProductService.getListOrderProductByTable(tableId);
+		vo = orderProductService.getListOrderProductByTable(tableId, userName);
 		if (vo != null) {
 		    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ORDER_DETAIL + " " + tableId,
 			    StatusCommon.SUCCESS);
@@ -338,7 +338,7 @@ public class OrderProductController {
 			StatusCommon.SUCCESS);
 		List<OrderProductModel> checkList = orderProductRepository.getListOrderByTable(currentTable);
 		if(checkList.size() == 0) {
-		    positionRepository.closeTableById(currentTable);
+		    positionRepository.closeTableById(currentTable,userName);
 		}
 		return new ResponseEntity<String>(status, HttpStatus.OK);
 	    } else {

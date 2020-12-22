@@ -25,7 +25,7 @@ public class UserServiceImplement implements UserService {
 
     @Autowired
     private AccountUserRepository accountUserRepository;
-    
+
     @Autowired
     private CommonMethod commonMethod;
 
@@ -60,8 +60,9 @@ public class UserServiceImplement implements UserService {
      */
     public UserModel mappingUserModel(SaveUserRequest userRequest) {
 	UserModel userModel = new UserModel();
-	userModel.setUserId(
-		userRequest.getUserId().isEmpty() || userRequest.getUserId() == null  ? commonMethod.convertDateTimeNowToString() : userRequest.getUserId());
+	userModel.setUserId(userRequest.getUserId().isEmpty() || userRequest.getUserId() == null
+		? commonMethod.convertDateTimeNowToString()
+		: userRequest.getUserId());
 	userModel.setFristName(userRequest.getFristName());
 	userModel.setMidleName(userRequest.getMidleName());
 	userModel.setLastName(userRequest.getLastName());

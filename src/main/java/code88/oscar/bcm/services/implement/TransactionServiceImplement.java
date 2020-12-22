@@ -106,7 +106,7 @@ public class TransactionServiceImplement implements TransactionService {
 		sendEmail(request, txnId);
 	    }
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
-	    positionRepository.closeTableById(request.getTableId());
+	    positionRepository.closeTableById(request.getTableId(), request.getCreateBy());
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
 
 	    message = StatusCommon.SUCCESS;

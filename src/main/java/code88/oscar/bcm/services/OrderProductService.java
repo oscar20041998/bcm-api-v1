@@ -14,7 +14,7 @@ public interface OrderProductService {
 
     String saveOrder (OrderProductRequest request);
     
-    OrderProductVO getListOrderProductByTable (String tableId);
+    OrderProductVO getListOrderProductByTable (String tableId, String createBy);
     
     String descreaseOrderProduct (String positionId, String productId);
     

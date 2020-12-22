@@ -183,11 +183,12 @@ public class PositionController {
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_MOVE_CURRENT_POSITION);
 	try {
+	    String userName = accountUserService.getUserNameByAccountId(accountUserValid);
 	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
 	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
 	    boolean isStaff = accountUserService.isStaffRole(accountUserValid);
 	    if (isManager == true || isAdmin == true || isStaff == true) {
-		positionService.moveTableCurrent(currenTable, newTable);
+		positionService.moveTableCurrent(currenTable, newTable, userName);
 		LOGGER.log(Level.INFO, MessageCommon.MOVE_CURRENT_POSITION_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<String>(MessageCommon.MOVE_CURRENT_POSITION_SUCCESS, HttpStatus.OK);

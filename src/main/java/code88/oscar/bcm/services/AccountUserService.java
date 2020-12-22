@@ -43,9 +43,7 @@ public interface AccountUserService {
 	void updateAccountIsLogin(String accountId, String userName);
 	
 	void updateAccountIsLogout(String accountId, String userName);
-	
-	List<AccountUserVO> getListAccountLoginNearly();
-	
+		
 	void increaseNumberLoginFailed(String userName);
 
 	void resetNumberLoginFailed(String userName);

@@ -102,11 +102,10 @@ public interface AccountUserRepository extends JpaRepository<AccountUserModel, S
 	int countAdminRoleWithID(@Param("pAccountId") String pAccountId, @Param("pRoleCode") String pRoleCode,
 			@Param("pStatus") String pStatus);
 	
-	public static final String sql_getListAccountLoginNearly = ""
-		+ " SELECT * "
+	public static final String sql_getNumberLoginFailed = ""
+		+ " SELECT number_login_failde "
 		+ " FROM account_user "
-		+ " ORDER BY last_login_date DESC "
-		+ " LIMIT 5";
+		+ " WHERE user_name = :pUserName ";
 	
 	public static final String sql_increaseNumberLoginFailed = ""
 		+ " UPDATE account_user "
@@ -121,8 +120,10 @@ public interface AccountUserRepository extends JpaRepository<AccountUserModel, S
 	public static final String sql_getUserNameByAccountId = ""
 		+ " SELECT user_name FROM account_user WHERE account_id = :pAccountId";
 	
-	@Query(value = sql_getListAccountLoginNearly, nativeQuery = true)
-	List<AccountUserModel> getListAccountLoginNearly();
+	@Transactional
+	@Modifying
+	@Query(value = sql_getNumberLoginFailed, nativeQuery = true)
+	int getNumberLoginFailed(@Param("pUserName") String userName);
 	
 	// Used to check account when log in
 	@Query(value = sql_countAccounByUserNameAndPassword, nativeQuery = true)

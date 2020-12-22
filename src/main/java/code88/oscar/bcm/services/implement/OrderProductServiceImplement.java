@@ -74,11 +74,11 @@ public class OrderProductServiceImplement implements OrderProductService {
     }
 
     @Override
-    public OrderProductVO getListOrderProductByTable(String tableId) {
+    public OrderProductVO getListOrderProductByTable(String tableId, String createBy) {
 	OrderProductVO vo = new OrderProductVO();
 	List<OrderProductModel> orderProductModel = orderProductRepository.getListOrderByTable(tableId);
 	if (orderProductModel.isEmpty()) {
-	    positionRepository.closeTableById(tableId);
+	    positionRepository.closeTableById(tableId,createBy);
 	} else {
 	    vo.setTableName(getTableOrdered(orderProductModel));
 	    vo.setListOrder(mappingProductOrderd(orderProductModel));

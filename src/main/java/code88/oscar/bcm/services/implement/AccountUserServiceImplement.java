@@ -20,7 +20,7 @@ import code88.oscar.bcm.viewObjects.AccountUserVO;
 /**
  * @FileName: AccountUserServiceImplement.java
  * @since:15/11/2020
- * */
+ */
 @Service
 public class AccountUserServiceImplement implements AccountUserService {
 
@@ -225,13 +225,6 @@ public class AccountUserServiceImplement implements AccountUserService {
     @Override
     public void updateAccountIsLogout(String accountId, String userName) {
 	accountUserRepository.updateIsLogout(accountId, userName);
-    }
-
-    @Override
-    public List<AccountUserVO> getListAccountLoginNearly() {
-	List<AccountUserModel> listModel = accountUserRepository.getListAccountLoginNearly();
-	List<AccountUserVO> listVO = mappingListModelAndListVO(listModel);
-	return listVO;
     }
 
     @Override

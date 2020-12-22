@@ -37,7 +37,7 @@ public class ProductServiceImplement implements ProductService {
 
     @Override
     public ProductModel saveProduct(SaveProductRequest request) {
- 	ProductModel model = mappingProductModel(request);
+	ProductModel model = mappingProductModel(request);
 	return productRepository.save(model);
     }
 
@@ -69,11 +69,11 @@ public class ProductServiceImplement implements ProductService {
     /**
      * @Function: mappingProductModel(...)
      * @param: SaveProductRequest - object
-     * */
+     */
     ProductModel mappingProductModel(SaveProductRequest request) {
 	ProductModel model = new ProductModel();
 	String pr = request.getPrice().replace(",", "");
-	    BigDecimal price = new BigDecimal(pr);
+	BigDecimal price = new BigDecimal(pr);
 	model.setProductId(request.getProductId() == null || request.getProductId().isEmpty()
 		? "PRD" + commonMethod.convertDateTimeNowToString()
 		: request.getProductId());
@@ -106,11 +106,11 @@ public class ProductServiceImplement implements ProductService {
 	ProductVO vo = mappingProductVO(model);
 	return vo;
     }
-    
+
     /**
      * @Funtion: mappingProductVO(...)
      * @param: ProductModel - object
-     * */
+     */
     ProductVO mappingProductVO(ProductModel model) {
 	ProductVO vo = new ProductVO();
 	vo.setCategoryId(model.getCategoryId());
@@ -118,7 +118,7 @@ public class ProductServiceImplement implements ProductService {
 	vo.setProductName(model.getProductName());
 	vo.setImageContent(model.getImage() != null ? new String(model.getImage(), StandardCharsets.UTF_8) : "");
 	vo.setPrice(model.getPrice());
-	vo.setPriceFormatString("₫"+commonMethod.convertCurrencyToString(model.getPrice()));
+	vo.setPriceFormatString("₫" + commonMethod.convertCurrencyToString(model.getPrice()));
 	vo.setCreateBy(model.getCreateBy());
 	vo.setCreateDate(commonMethod.convertDateToString(model.getCreateDate()));
 	return vo;

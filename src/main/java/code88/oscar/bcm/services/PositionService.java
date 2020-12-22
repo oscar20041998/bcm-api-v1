@@ -16,7 +16,7 @@ public interface PositionService {
     
     int closed();
     
-    void moveTableCurrent(String currentTable, String newTable);
+    void moveTableCurrent(String currentTable, String newTable, String createBy);
     
     List<PositionVO> getListPositionOpening();
     
