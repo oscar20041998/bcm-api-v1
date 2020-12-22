@@ -7,6 +7,8 @@ public class MessageCommon {
 
     public final static String LINE = "--------------------------------------------------------------------------------------------------";
 
+    public final static String LINE_EMAIL = "-------------------------------------------";
+
     // VALIDATION USER
     public final static String USER_VALID = "THIS USER IS VALID TO ACCESS";
 
@@ -185,6 +187,18 @@ public class MessageCommon {
 
     public static final String GET_ALL_POSITION_FAILED = "GET ALL POSITION FAILED";
     
+    public static final String START_GET_POSITION_OPENING = "WE STARTED TO GET ALL POSITION";
+
+    public static final String GET_POSITION_OPENING_SUCCESS = "GET POSITION OPENING SUCCESS";
+
+    public static final String GET_POSITION_OPENING_FAILED = "GET POSITION OPENING FAILED";
+    
+    public static final String START_GET_POSITION_CLOSED = "WE STARTED TO GET ALL POSITION CLOSED";
+
+    public static final String GET_POSITION_CLOSED_SUCCESS = "GET ALL POSITION CLOSED SUCCESS";
+
+    public static final String GET_POSITION_CLOSED_FAILED = "GET ALL POSITION CLOSED FAILED";
+    
     public static final String START_MOVE_CURRENT_POSITION = "WE STARTED TO MOVE CURRENT TABLE";
 
     public static final String MOVE_CURRENT_POSITION_SUCCESS = "MOVE CURRENT TABLE SUCCESS";
@@ -247,6 +261,12 @@ public class MessageCommon {
     public static final String GET_TRANSACTION_DETAIL_SUCCESS = "GET TRANSACTION DETAIL SUCCESS";
 
     public static final String GET_TRANSACTION_DETAIL_FAILED = "GET TRANSACTION DETAIL FAILED";
+    
+    public static final String START_SERCH_TRANSACTION_BY_ID = "WE START SEARCH TRANSACTION BY ID";
+
+    public static final String SEARCH_TRANSACTION_BY_ID_SUCCESS = "SEARCH TRANSACTION BY ID SUCCESS";
+
+    public static final String SEARCH_TRANSACTION_BY_ID_FAILED = "SEARCH TRANSACTION BY ID FAILED";
 
 
     // IMAGE PRODUCT

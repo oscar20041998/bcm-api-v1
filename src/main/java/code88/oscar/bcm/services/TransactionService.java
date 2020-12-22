@@ -22,6 +22,8 @@ public interface TransactionService {
     
     List<TransactionVO> getTransactionsByDate(Date date);
 
+    List<TransactionVO> searchTransactionById(String transactionId);
+
     String saveTransaction(SaveTransactionRequest request);
     
     String updateStatusTransaction(Date date);

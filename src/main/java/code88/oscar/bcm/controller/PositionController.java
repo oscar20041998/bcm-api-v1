@@ -89,6 +89,94 @@ public class PositionController {
 	return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @RequestMapping(value = "/get-positions-opening/{accountUserValid}", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getPositionsOpening(@PathVariable("accountUserValid") String accountId) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_GET_POSITION_OPENING);
+	Map<String, Object> map = new HashMap<>();
+	List<PositionVO> result = new ArrayList<>();
+	String userName = accountUserService.getUserNameByAccountId(accountId);
+	try {
+	    boolean isManager = accountUserService.isMangerRole(accountId);
+	    boolean isAdmin = accountUserService.isAdminRole(accountId);
+	    boolean isStaff = accountUserService.isStaffRole(accountId);
+	    if (isManager == true || isAdmin == true || isStaff == true) {
+		result = positionService.getListPositionOpening();
+		int opening = positionService.opening();
+		int closed = positionService.closed();
+		if (!result.isEmpty()) {
+		    map.put("positions", result);
+		    map.put("isOpening", opening);
+		    map.put("isClosed", closed);
+		    LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_OPENING_SUCCESS);
+		    LOGGER.log(Level.INFO, MessageCommon.LINE);
+		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+		    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+		    LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_OPENING_FAILED);
+		    LOGGER.log(Level.INFO, MessageCommon.LINE);
+		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+		}
+	    } else {
+		commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_OPENING_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_OPENING_FAILED);
+	    LOGGER.log(Level.ERROR, ex.getMessage());
+	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_OPENING_FAILED);
+	}
+	return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @RequestMapping(value = "/get-positions-closed/{accountUserValid}", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getPositionsClosed(@PathVariable("accountUserValid") String accountId) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_GET_POSITION_CLOSED);
+	Map<String, Object> map = new HashMap<>();
+	List<PositionVO> result = new ArrayList<>();
+	String userName = accountUserService.getUserNameByAccountId(accountId);
+	try {
+	    boolean isManager = accountUserService.isMangerRole(accountId);
+	    boolean isAdmin = accountUserService.isAdminRole(accountId);
+	    boolean isStaff = accountUserService.isStaffRole(accountId);
+	    if (isManager == true || isAdmin == true || isStaff == true) {
+		result = positionService.getListPositionClosed();
+		int opening = positionService.opening();
+		int closed = positionService.closed();
+		if (!result.isEmpty()) {
+		    map.put("positions", result);
+		    map.put("isOpening", opening);
+		    map.put("isClosed", closed);
+		    LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_CLOSED_SUCCESS);
+		    LOGGER.log(Level.INFO, MessageCommon.LINE);
+		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+		    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+		    LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_CLOSED_FAILED);
+		    LOGGER.log(Level.INFO, MessageCommon.LINE);
+		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
+		}
+	    } else {
+		commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_CLOSED_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
+	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_CLOSED_FAILED);
+	    LOGGER.log(Level.ERROR, ex.getMessage());
+	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_CLOSED_FAILED);
+	}
+	return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @RequestMapping(value = "/move-current-table/{currentTable}/{newTable}/{accountUserValid}", method = RequestMethod.POST)
     public ResponseEntity<String> moveCurrentTable(@PathVariable("currentTable") String currenTable,
 	    @PathVariable("newTable") String newTable, @PathVariable("accountUserValid") String accountUserValid) {

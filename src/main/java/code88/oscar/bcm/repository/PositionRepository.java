@@ -1,5 +1,7 @@
 package code88.oscar.bcm.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,6 +27,26 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
 	    "UPDATE order_product "
 	    + " SET position_id = :pNewTable "
 	    + " WHERE position_id = :pCurrentTable";
+    
+    public static final String sql_getListPositionOpening = ""
+    	+ " SELECT"
+    	+ "	position_id, "
+    	+ "	name,"
+    	+ "	position_status,"
+    	+ "	last_update_by, "
+    	+ "	last_update_time"
+    	+ " FROM position "
+    	+ " WHERE position_status = 'OPENING' ";
+    
+    public static final String sql_getListPositionClosed = ""
+	    	+ " SELECT"
+	    	+ "	position_id, "
+	    	+ "	name,"
+	    	+ "	position_status,"
+	    	+ "	last_update_by, "
+	    	+ "	last_update_time"
+	    	+ " FROM position "
+	    	+ " WHERE position_status = 'CLOSED' ";
 
     @Transactional
     @Modifying
@@ -40,5 +62,11 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
     @Modifying
     @Query(value = sql_moveCurrentTable, nativeQuery = true)
     void moveCurrentTable(@Param("pCurrentTable") String currentTable, @Param("pNewTable") String newTable);
+    
+    @Query(value = sql_getListPositionOpening, nativeQuery = true)
+    List<PositionModel> getListPositionOpening();
+    
+    @Query(value = sql_getListPositionClosed, nativeQuery = true)
+    List<PositionModel> getListPositionClosed();
 
 }

@@ -103,7 +103,7 @@ public class TransactionServiceImplement implements TransactionService {
 
 	    // Save order detail
 	    if (request.getCustomerEmail() != null && !request.getCustomerEmail().isEmpty()) {
-		sendEmail(request);
+		sendEmail(request, txnId);
 	    }
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
 	    positionRepository.closeTableById(request.getTableId());
@@ -203,15 +203,17 @@ public class TransactionServiceImplement implements TransactionService {
 	vo.setTransactionCode(
 		model.getTransactionCode() != null && !model.getTransactionCode().isEmpty() ? model.getTransactionCode()
 			: "(Not apply)");
-	vo.setEmailCustomer(model.getEmailCustomer());
+	vo.setEmailCustomer(
+		model.getEmailCustomer() != null && !model.getEmailCustomer().isEmpty() ? model.getEmailCustomer()
+			: "(Not provide)");
 	vo.setCreateBy(model.getCreateBy());
 	vo.setCreateDate(commonMethod.convertDateTimeToString(model.getCreateDate()));
 	return vo;
     }
 
-    void sendEmail(SaveTransactionRequest request) {
+    void sendEmail(SaveTransactionRequest request, String transactionId) {
 	try {
-	    String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + commonMethod.convertDateTimeNowToString();
+	    String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + transactionId;
 	    String sendFrom = userService.getEmailByUserId(request.getUserId());
 	    List<OrderProductModel> listOrder = orderProductRepository.getListOrderByTable(request.getTableId());
 	    SimpleMailMessage message = new SimpleMailMessage();
@@ -265,15 +267,45 @@ public class TransactionServiceImplement implements TransactionService {
 		&& eWalletRequest.getTransactionCode() != "" ? eWalletRequest.getTransactionCode() : "(Not apply)";
 	String totalPrice = request.getTotalPrice() != null && request.getTotalPrice() != "" ? request.getTotalPrice()
 		: "0";
-	content += content.concat(MessageCommon.EMAIL_ORDER_DETAIL).concat("\n").concat(listOrderString)
-		.concat(MessageCommon.PAYMENT_TYPE + paymentType).concat("\n")
-		.concat(MessageCommon.BANK_NAME + bankName).concat("\n").concat(MessageCommon.CAR_NUMBER + cardNumber)
-		.concat("\n").concat(MessageCommon.CARD_TYPE + cardType).concat("\n")
-		.concat(MessageCommon.CARD_OWNER_NAME + ownerName).concat("\n")
-		.concat(MessageCommon.EXPRIE_DATE + expireDate).concat("\n").concat(MessageCommon.CVV + cvv)
-		.concat("\n").concat(MessageCommon.ELECTRONIC_WALLET + provider).concat("\n")
-		.concat(MessageCommon.TRANSACTION_CODE + transactionCode).concat("\n")
+	content += content
+		.concat(MessageCommon.EMAIL_ORDER_DETAIL)
+		.concat("\n")
+		.concat(MessageCommon.LINE_EMAIL)
+		.concat("\n").concat(listOrderString)
+		.concat(MessageCommon.LINE_EMAIL)
+		.concat("\n")
+		.concat(MessageCommon.PAYMENT_TYPE + paymentType)
+		.concat("\n")
+		.concat(MessageCommon.LINE_EMAIL)
+		.concat("\n")
+		.concat(MessageCommon.BANK_NAME + bankName)
+		.concat("\n")
+		.concat(MessageCommon.CAR_NUMBER + cardNumber)
+		.concat("\n")
+		.concat(MessageCommon.CARD_TYPE + cardType)
+		.concat("\n")
+		.concat(MessageCommon.CARD_OWNER_NAME + ownerName)
+		.concat("\n")
+		.concat(MessageCommon.EXPRIE_DATE + expireDate)
+		.concat("\n")
+		.concat(MessageCommon.CVV + cvv)
+		.concat("\n")
+		.concat(MessageCommon.LINE_EMAIL)
+		.concat("\n")
+		.concat(MessageCommon.ELECTRONIC_WALLET + provider)
+		.concat("\n")
+		.concat(MessageCommon.TRANSACTION_CODE + transactionCode)
+		.concat("\n")
+		.concat(MessageCommon.LINE_EMAIL)
+		.concat("\n")
 		.concat(MessageCommon.TOTAL_PRICE + totalPrice);
 	return content;
+    }
+
+    @Override
+    public List<TransactionVO> searchTransactionById(String transactionId) {
+	List<TransactionModel> listModel = transactionRepository.searchTransactionById(transactionId);
+	List<TransactionVO> listVO = mappingTransactionList(listModel);
+	return listVO;
     }
 }

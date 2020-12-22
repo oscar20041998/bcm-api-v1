@@ -70,6 +70,11 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, S
     	+ "	txn.order_id = :pOrderId AND "
     	+ "	txn.table_id = :pTableId ";
     
+    public static String sql_searchTransactionById = ""
+    	+ " SELECT *"
+    	+ " FROM transaction "
+	+ " WHERE transaction_id = :pTransactionId";
+    
     @Query(value = sql_getAllTransaction, nativeQuery = true)
     List<TransactionModel> getAllTransaction();
     
@@ -81,6 +86,9 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, S
     
     @Query(value = sql_getALlTransactionsByDate, nativeQuery = true)
     List<TransactionModel> getAllTransactionByDate(@Param("pDate") Date date);
+    
+    @Query(value = sql_searchTransactionById, nativeQuery = true)
+    List<TransactionModel> searchTransactionById(@Param("pTransactionId") String transactionId);
     
     @Query(value = sql_getTransactionDetail, nativeQuery = true)
     TransactionModel getTransactionDetail(@Param("pTransactionId") String transactionId, @Param("pOrderId") String orderId, @Param("pTableId") String tableId);

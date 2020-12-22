@@ -127,6 +127,36 @@ public class TransactionController {
 	    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
     }
+    
+    @RequestMapping(value = "/search-transaction/{accountUserValid}/{transactionId}", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> searchTransactionById(
+	    @PathVariable("accountUserValid") String accountUserValid, @PathVariable("transactionId") String transactionId) {
+	LOGGER.log(Level.INFO, MessageCommon.LINE);
+	LOGGER.log(Level.INFO, MessageCommon.START_SERCH_TRANSACTION_BY_ID);
+	Map<String, Object> map = new HashMap<>();
+	List<TransactionVO> lists = new ArrayList<>();
+	try {
+	    boolean isAdmin = accountUserService.isAdminRole(accountUserValid);
+	    boolean isManager = accountUserService.isMangerRole(accountUserValid);
+	    if (isAdmin == true || isManager == true) {
+		String txnId = "No.".concat(transactionId);
+		lists = transactionService.searchTransactionById(txnId);
+		map.put("listTransactions", lists);
+		LOGGER.log(Level.INFO, MessageCommon.SEARCH_TRANSACTION_BY_ID_SUCCESS);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	    } else {
+		LOGGER.log(Level.INFO, MessageCommon.SEARCH_TRANSACTION_BY_ID_FAILED);
+		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
+		LOGGER.log(Level.INFO, MessageCommon.LINE);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
+	    }
+	} catch (Exception ex) {
+	    LOGGER.log(Level.INFO, MessageCommon.SEARCH_TRANSACTION_BY_ID_FAILED);
+	    LOGGER.log(Level.ERROR, ex.getMessage());
+	    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+    }
 
     @RequestMapping(value = "/search-transactions/{accountUserValid}/{criteria}", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> searchTransactions(

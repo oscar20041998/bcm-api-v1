@@ -20,6 +20,9 @@ import code88.oscar.bcm.common.ActionCommon;
 import code88.oscar.bcm.common.CommonMethod;
 import code88.oscar.bcm.common.MessageCommon;
 import code88.oscar.bcm.common.StatusCommon;
+import code88.oscar.bcm.model.OrderProductModel;
+import code88.oscar.bcm.repository.OrderProductRepository;
+import code88.oscar.bcm.repository.PositionRepository;
 import code88.oscar.bcm.request.OrderProductRequest;
 import code88.oscar.bcm.services.AccountUserService;
 import code88.oscar.bcm.services.OrderProductService;
@@ -45,6 +48,12 @@ public class OrderProductController {
 
     @Autowired
     private CommonMethod commonMethod;
+    
+    @Autowired
+    private OrderProductRepository orderProductRepository;
+    
+    @Autowired
+    private PositionRepository positionRepository;
 
     @RequestMapping(value = "/save-order/{accountUserValid}", method = RequestMethod.POST)
     public ResponseEntity<String> saveOrderProduct(@RequestBody OrderProductRequest request,
@@ -327,6 +336,10 @@ public class OrderProductController {
 		}
 		commonMethod.insertSystemLog(userName, ActionCommon.SPLIT_PRODUCT + " " + currentTable,
 			StatusCommon.SUCCESS);
+		List<OrderProductModel> checkList = orderProductRepository.getListOrderByTable(currentTable);
+		if(checkList.size() == 0) {
+		    positionRepository.closeTableById(currentTable);
+		}
 		return new ResponseEntity<String>(status, HttpStatus.OK);
 	    } else {
 		commonMethod.insertSystemLog(userName, ActionCommon.SPLIT_PRODUCT + " " + currentTable,

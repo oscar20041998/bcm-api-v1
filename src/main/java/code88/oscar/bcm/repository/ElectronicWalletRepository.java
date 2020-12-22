@@ -47,6 +47,7 @@ public interface ElectronicWalletRepository extends JpaRepository<ElectronicWall
     
     public static final String enabledWalletById = ""
 	    + " UPDATE electronic_wallet SET status = 'true' WHERE id = :pId ";
+    
 
     @Query(value = getAllElectronicWallet, nativeQuery = true)
     List<ElectronicWalletModel> getListWallet();
@@ -63,4 +64,5 @@ public interface ElectronicWalletRepository extends JpaRepository<ElectronicWall
     @Modifying
     @Query(value = enabledWalletById, nativeQuery = true)
     void enableWalletById(@Param("pId") int id);
+    
 }

@@ -35,7 +35,7 @@ public class PositionServiceImplement implements PositionService {
 
     public static final String sql_countOpening = ""
 	    + "SELECT count(position_status) FROM position WHERE position_status='" + StatusCommon.OPENING + "'";
-    
+
     public static final String sql_countClosed = ""
 	    + "SELECT count(position_status) FROM position WHERE position_status='" + StatusCommon.CLOSED + "'";
 
@@ -89,5 +89,19 @@ public class PositionServiceImplement implements PositionService {
 	positionRepository.moveCurrentTable(currentTable, newTable);
 	positionRepository.closeTableById(currentTable);
 	positionRepository.openTableById(newTable);
+    }
+
+    @Override
+    public List<PositionVO> getListPositionOpening() {
+	List<PositionModel> listModel = positionRepository.getListPositionOpening();
+	List<PositionVO> listVO = mappingListPosition(listModel);
+	return listVO;
+    }
+
+    @Override
+    public List<PositionVO> getListPositionClosed() {
+	List<PositionModel> listModel = positionRepository.getListPositionClosed();
+	List<PositionVO> listVO = mappingListPosition(listModel);
+	return listVO;
     }
 }
