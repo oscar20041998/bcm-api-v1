@@ -24,14 +24,14 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
     	+ "SET position_status ='" + StatusCommon.OPENING +"', "
     	+ "     last_update_by = :pCreateBy,"
     	+ "    last_update_time = NOW()"
-    	+ "WHERE position_id = :tableId";
+    	+ " WHERE position_id = :tableId";
 
     public final static String sql_closeTableById = ""
     	+ "UPDATE position "
     	+ "SET position_status ='" + StatusCommon.CLOSED +",' "
     	+ "    last_update_by = :pCreateBy,"
     	+ "    last_update_time = NOW()"
-    	+ "WHERE position_id = :tableId";
+    	+ " WHERE position_id = :tableId";
     
     public final static String sql_moveCurrentTable = 
 	    "UPDATE order_product "

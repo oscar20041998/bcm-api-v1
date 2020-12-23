@@ -120,6 +120,9 @@ public interface AccountUserRepository extends JpaRepository<AccountUserModel, S
 	public static final String sql_getUserNameByAccountId = ""
 		+ " SELECT user_name FROM account_user WHERE account_id = :pAccountId";
 	
+	public static final String sql_deleteAccountUserByUserId = ""
+		+ "DELETE FROM account_user WHERE user_id = :pUserId";
+	
 	@Transactional
 	@Modifying
 	@Query(value = sql_getNumberLoginFailed, nativeQuery = true)
@@ -175,4 +178,9 @@ public interface AccountUserRepository extends JpaRepository<AccountUserModel, S
 	
 	@Query(value = sql_getUserNameByAccountId, nativeQuery = true)
 	String getUserNameByAccountId(@Param("pAccountId") String accountId);
+	
+	@Modifying
+	@Transactional
+	@Query(value = sql_deleteAccountUserByUserId, nativeQuery = true)
+	void deleteAccountUserByUserId(@Param("pUserId") String userName);
 }

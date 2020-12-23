@@ -149,7 +149,7 @@ public class AccountUserController {
 
     }
 
-    @RequestMapping(value ="/get-profile-user/{userId}/{accountId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get-profile-user/{userId}/{accountId}", method = RequestMethod.GET)
     public ResponseEntity<ProfileUserVO> getProfileUser(@PathVariable("userId") String userId,
 	    @PathVariable("accountId") String accountId) {
 	ProfileUserVO profileVO = new ProfileUserVO();
@@ -201,22 +201,27 @@ public class AccountUserController {
 	return profileVO;
     }
 
-    @RequestMapping(value ="/change-password", method = RequestMethod.POST)
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_CHANGE_PASSWORD);
+	String userName = accountUserService.getUserNameByAccountId(request.getAccountId());
 	try {
 	    AccountUserModel result = accountUserService.changePasswordAccountUser(request);
 	    if (result != null) {
+		commonMethod.insertSystemLog(userName, "Change password", StatusCommon.SUCCESS);
+		;
 		LOGGER.log(Level.INFO, MessageCommon.CHANGE_PASSWORD_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<String>(StatusCommon.SUCCESS, HttpStatus.OK);
 	    } else {
+		commonMethod.insertSystemLog(userName, "Change password", StatusCommon.FAILED);
 		LOGGER.log(Level.ERROR, MessageCommon.CHANGE_PASSWORD_FAILED);
 		LOGGER.log(Level.ERROR, MessageCommon.LINE);
 		return new ResponseEntity<String>(StatusCommon.FAILED, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	} catch (Exception ex) {
+	    commonMethod.insertSystemLog(userName, "Change password", StatusCommon.FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.CHANGE_PASSWORD_FAILED);
 	    LOGGER.log(Level.ERROR, MessageCommon.LINE);
@@ -229,7 +234,6 @@ public class AccountUserController {
 	List<AccountUserVO> listResult = new ArrayList<>();
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_LIST_ACCOUNT);
-	String userName = accountUserService.getUserNameByAccountId(accountValid);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountValid);
 	    boolean isManager = accountUserService.isMangerRole(accountValid);
@@ -240,18 +244,15 @@ public class AccountUserController {
 		return new ResponseEntity<List<AccountUserVO>>(listResult, HttpStatus.OK);
 
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNTS, StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_LIST_ACCOUNT_SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<List<AccountUserVO>>(HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNTS + ex.getMessage(), StatusCommon.FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_LIST_ACCOUNT_FAILED);
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
-
 	}
 	return new ResponseEntity<List<AccountUserVO>>(HttpStatus.NOT_FOUND);
     }
@@ -286,31 +287,24 @@ public class AccountUserController {
 	return new ResponseEntity<List<AccountUserVO>>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping( value = "/get-account-by-account-id/{accountId}/{accountIdValid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get-account-by-account-id/{accountId}/{accountIdValid}", method = RequestMethod.GET)
     public ResponseEntity<AccountUserVO> getAccountByAccountId(@PathVariable("accountId") String accountId,
 	    @PathVariable("accountIdValid") String accountIdValid) {
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_ACCOUNT_BY_ACCOUNT_ID);
 	AccountUserVO vo = new AccountUserVO();
-	String userName = accountUserService.getUserNameByAccountId(accountIdValid);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountIdValid);
 	    boolean isManager = accountUserService.isMangerRole(accountIdValid);
 	    if (isAdmin == true || isManager == true) {
 		vo = accountUserService.getAccountByAccountId(accountId);
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNT_DETAIL + " " + accountId,
-			StatusCommon.SUCCESS);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ACCOUNT_BY_ACCOUNT_ID_SUCCESS);
 		return new ResponseEntity<AccountUserVO>(vo, HttpStatus.OK);
 
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNT_DETAIL + " " + accountId,
-			StatusCommon.FAILED);
 		return new ResponseEntity<AccountUserVO>(vo, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ACCOUNT_DETAIL + " " + accountId + " " + ex.getMessage(),
-			StatusCommon.FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_ACCOUNT_BY_ACCOUNT_ID_FAILED);
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);

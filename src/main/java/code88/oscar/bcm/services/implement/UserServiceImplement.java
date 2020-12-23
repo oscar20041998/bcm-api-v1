@@ -51,6 +51,7 @@ public class UserServiceImplement implements UserService {
 	UserModel userModel = userRepository.getOne(user_id);
 	if (userModel != null) {
 	    userRepository.deleteById(user_id);
+	    accountUserRepository.deleteAccountUserByUserId(user_id);
 	}
     }
 

@@ -198,29 +198,21 @@ public class OrderProductController {
 	    if (isAdmin == true || isManager == true || isStaff == true) {
 		vo = orderProductService.getListOrderProductByTable(tableId, userName);
 		if (vo != null) {
-		    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ORDER_DETAIL + " " + tableId,
-			    StatusCommon.SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_BY_TABLE_SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<OrderProductVO>(vo, HttpStatus.OK);
 		} else {
-		    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ORDER_DETAIL + " " + tableId,
-			    StatusCommon.FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_BY_TABLE_FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<OrderProductVO>(vo, HttpStatus.OK);
 		}
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ORDER_DETAIL + " " + tableId,
-			StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_BY_TABLE_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<OrderProductVO>(vo, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_ORDER_DETAIL + " " + tableId,
-		    StatusCommon.FAILED);
 	    LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_BY_TABLE_FAILED);
 	    LOGGER.log(Level.INFO, ex.getMessage());
 	    LOGGER.log(Level.INFO, MessageCommon.LINE);
@@ -242,7 +234,6 @@ public class OrderProductController {
 	    if (isAdmin == true || isManager == true || isStaff == true) {
 		listVO = orderProductService.getListOrderPending();
 		if (listVO != null) {
-		    commonMethod.insertSystemLog(userName, ActionCommon.SHOW_ORDER_PENDING, StatusCommon.SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_PENDING_SUCCESS);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<List<OrderProductPendingVO>>(listVO, HttpStatus.OK);
@@ -253,7 +244,6 @@ public class OrderProductController {
 		    return new ResponseEntity<List<OrderProductPendingVO>>(listVO, HttpStatus.OK);
 		}
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.SHOW_ORDER_PENDING, StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ORDER_PRODUCT_PENDING_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);

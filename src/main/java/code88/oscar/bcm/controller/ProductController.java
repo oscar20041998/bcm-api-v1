@@ -50,7 +50,6 @@ public class ProductController {
 	List<ProductVO> listProduct = new ArrayList<>();
 	LOGGER.log(Level.INFO, MessageCommon.LINE);
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_ALL_PRODUCT);
-	String userName = accountUserService.getUserNameByAccountId(accountIdValid);
 	try {
 	    boolean isAdmin = accountUserService.isAdminRole(accountIdValid);
 	    boolean isManager = accountUserService.isMangerRole(accountIdValid);
@@ -67,7 +66,6 @@ public class ProductController {
 		return new ResponseEntity<List<ProductVO>>(listProduct, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.VISIT_PRODUCTS, StatusCommon.FAILED);
 	    LOGGER.log(Level.INFO, MessageCommon.GET_ALL_PRODUCT_FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.LINE);

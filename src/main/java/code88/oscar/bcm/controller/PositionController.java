@@ -51,7 +51,6 @@ public class PositionController {
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_ALL_POSITION);
 	Map<String, Object> map = new HashMap<>();
 	List<PositionVO> result = new ArrayList<>();
-	String userName = accountUserService.getUserNameByAccountId(accountId);
 	try {
 	    boolean isManager = accountUserService.isMangerRole(accountId);
 	    boolean isAdmin = accountUserService.isAdminRole(accountId);
@@ -68,20 +67,17 @@ public class PositionController {
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
-		    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_ALL_POSITION_FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 		}
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_ALL_POSITION_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_ALL_POSITION_FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_ALL_POSITION_FAILED);
@@ -95,7 +91,6 @@ public class PositionController {
 	LOGGER.log(Level.INFO, MessageCommon.START_GET_POSITION_OPENING);
 	Map<String, Object> map = new HashMap<>();
 	List<PositionVO> result = new ArrayList<>();
-	String userName = accountUserService.getUserNameByAccountId(accountId);
 	try {
 	    boolean isManager = accountUserService.isMangerRole(accountId);
 	    boolean isAdmin = accountUserService.isAdminRole(accountId);
@@ -112,20 +107,17 @@ public class PositionController {
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
-		    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_OPENING_FAILED);
 		    LOGGER.log(Level.INFO, MessageCommon.LINE);
 		    return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NO_CONTENT);
 		}
 	    } else {
-		commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.GET_POSITION_OPENING_FAILED);
 		LOGGER.log(Level.INFO, MessageCommon.NOT_HAVE_PERMISSION);
 		LOGGER.log(Level.INFO, MessageCommon.LINE);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.UNAUTHORIZED);
 	    }
 	} catch (Exception ex) {
-	    commonMethod.insertSystemLog(userName, ActionCommon.STAY_SALE_SCREEN, StatusCommon.FAILED);
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_OPENING_FAILED);
 	    LOGGER.log(Level.ERROR, ex.getMessage());
 	    LOGGER.log(Level.ERROR, MessageCommon.GET_POSITION_OPENING_FAILED);
