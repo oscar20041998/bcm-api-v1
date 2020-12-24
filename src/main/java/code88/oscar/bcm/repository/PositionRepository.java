@@ -28,7 +28,7 @@ public interface PositionRepository extends JpaRepository<PositionModel, String>
 
     public final static String sql_closeTableById = ""
     	+ "UPDATE position "
-    	+ "SET position_status ='" + StatusCommon.CLOSED +",' "
+    	+ " SET position_status ='" + StatusCommon.CLOSED +"', "
     	+ "    last_update_by = :pCreateBy,"
     	+ "    last_update_time = NOW()"
     	+ " WHERE position_id = :tableId";

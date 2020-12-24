@@ -102,9 +102,7 @@ public class TransactionServiceImplement implements TransactionService {
 	    transactionRepository.save(transactionModel);
 
 	    // Save order detail
-	    if (request.getCustomerEmail() != null && !request.getCustomerEmail().isEmpty()) {
-		sendEmail(request, txnId);
-	    }
+	    sendEmail(request, txnId);
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
 	    positionRepository.closeTableById(request.getTableId(), request.getCreateBy());
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
@@ -213,17 +211,19 @@ public class TransactionServiceImplement implements TransactionService {
 
     void sendEmail(SaveTransactionRequest request, String transactionId) {
 	try {
-	    String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + transactionId;
-	    String sendFrom = userService.getEmailByUserId(request.getUserId());
-	    List<OrderProductModel> listOrder = orderProductRepository.getListOrderByTable(request.getTableId());
-	    SimpleMailMessage message = new SimpleMailMessage();
-	    String content = setContentEmail(listOrder, request);
-	    message.setFrom(sendFrom);
-	    message.setTo(request.getCustomerEmail());
-	    message.setSubject(subjectMail);
-	    message.setSentDate(new Date(8));
-	    message.setText(content);
-	    emailSender.send(message);
+	    if (request.getCustomerEmail() != null && request.getCustomerEmail() != "") {
+		String subjectMail = "ELECTRONIC INVOICE FROM COFFEE SHOP - " + transactionId;
+		String sendFrom = userService.getEmailByUserId(request.getUserId());
+		List<OrderProductModel> listOrder = orderProductRepository.getListOrderByTable(request.getTableId());
+		SimpleMailMessage message = new SimpleMailMessage();
+		String content = setContentEmail(listOrder, request);
+		message.setFrom(sendFrom);
+		message.setTo(request.getCustomerEmail());
+		message.setSubject(subjectMail);
+		message.setSentDate(new Date(8));
+		message.setText(content);
+		emailSender.send(message);
+	    }
 	} catch (Exception ex) {
 	    System.err.print(ex.getMessage());
 	}
@@ -267,38 +267,17 @@ public class TransactionServiceImplement implements TransactionService {
 		&& eWalletRequest.getTransactionCode() != "" ? eWalletRequest.getTransactionCode() : "(Not apply)";
 	String totalPrice = request.getTotalPrice() != null && request.getTotalPrice() != "" ? request.getTotalPrice()
 		: "0";
-	content += content
-		.concat(MessageCommon.EMAIL_ORDER_DETAIL)
-		.concat("\n")
-		.concat(MessageCommon.LINE_EMAIL)
-		.concat("\n").concat(listOrderString)
-		.concat(MessageCommon.LINE_EMAIL)
-		.concat("\n")
-		.concat(MessageCommon.PAYMENT_TYPE + paymentType)
-		.concat("\n")
-		.concat(MessageCommon.LINE_EMAIL)
-		.concat("\n")
-		.concat(MessageCommon.BANK_NAME + bankName)
-		.concat("\n")
-		.concat(MessageCommon.CAR_NUMBER + cardNumber)
-		.concat("\n")
-		.concat(MessageCommon.CARD_TYPE + cardType)
-		.concat("\n")
-		.concat(MessageCommon.CARD_OWNER_NAME + ownerName)
-		.concat("\n")
-		.concat(MessageCommon.EXPRIE_DATE + expireDate)
-		.concat("\n")
-		.concat(MessageCommon.CVV + cvv)
-		.concat("\n")
-		.concat(MessageCommon.LINE_EMAIL)
-		.concat("\n")
-		.concat(MessageCommon.ELECTRONIC_WALLET + provider)
-		.concat("\n")
-		.concat(MessageCommon.TRANSACTION_CODE + transactionCode)
-		.concat("\n")
-		.concat(MessageCommon.LINE_EMAIL)
-		.concat("\n")
-		.concat(MessageCommon.TOTAL_PRICE + totalPrice);
+	content += content.concat(MessageCommon.EMAIL_ORDER_DETAIL).concat("\n").concat(MessageCommon.LINE_EMAIL)
+		.concat("\n").concat(listOrderString).concat(MessageCommon.LINE_EMAIL).concat("\n")
+		.concat(MessageCommon.PAYMENT_TYPE + paymentType).concat("\n").concat(MessageCommon.LINE_EMAIL)
+		.concat("\n").concat(MessageCommon.BANK_NAME + bankName).concat("\n")
+		.concat(MessageCommon.CAR_NUMBER + cardNumber).concat("\n").concat(MessageCommon.CARD_TYPE + cardType)
+		.concat("\n").concat(MessageCommon.CARD_OWNER_NAME + ownerName).concat("\n")
+		.concat(MessageCommon.EXPRIE_DATE + expireDate).concat("\n").concat(MessageCommon.CVV + cvv)
+		.concat("\n").concat(MessageCommon.LINE_EMAIL).concat("\n")
+		.concat(MessageCommon.ELECTRONIC_WALLET + provider).concat("\n")
+		.concat(MessageCommon.TRANSACTION_CODE + transactionCode).concat("\n").concat(MessageCommon.LINE_EMAIL)
+		.concat("\n").concat(MessageCommon.TOTAL_PRICE + totalPrice);
 	return content;
     }
 
