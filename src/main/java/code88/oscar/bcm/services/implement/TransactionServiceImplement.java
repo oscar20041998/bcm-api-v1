@@ -102,7 +102,9 @@ public class TransactionServiceImplement implements TransactionService {
 	    transactionRepository.save(transactionModel);
 
 	    // Save order detail
-	    sendEmail(request, txnId);
+	    if (request.getCustomerEmail() != null && request.getCustomerEmail() != "") {
+		sendEmail(request, txnId);
+	    }
 	    orderDetailService.saveOrderDetail(listOrder, request.getTableId(), orderId, request.getCreateBy());
 	    positionRepository.closeTableById(request.getTableId(), request.getCreateBy());
 	    orderProductRepository.deleteOrderProductByTableId(request.getTableId());
@@ -238,10 +240,10 @@ public class TransactionServiceImplement implements TransactionService {
 
 	String listOrderString = "";
 	for (OrderProductModel order : listOrder) {
-	    listOrderString += listOrderString.concat("\t").concat(order.getProductName() + " x " + order.getQuantity()
-		    + " : " + commonMethod.convertCurrencyToString(order.getPrice())).concat("\n");
+	    listOrderString += "\t" + order.getProductName().concat(" x" + order.getQuantity())
+		    .concat(" : " + commonMethod.convertCurrencyToString(order.getPrice())) + "\n";
 	}
-	// Set info for pamyent by card
+	// Set info for payment by card
 	String bankName = bankRequest.getBankName() != null && !bankRequest.getBankName().isEmpty()
 		? bankRequest.getBankName()
 		: "(Not apply)";
