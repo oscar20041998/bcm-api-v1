@@ -61,11 +61,13 @@ public class OrderProductServiceImplement implements OrderProductService {
 	    if (isExist < 1) {
 		orderProductRepository.insertNewOrderProduct(positionId, productId, quantity, price, statusProduct,
 			createBy, createDate);
+		positionRepository.openTableById(positionId, createBy);
 		message = StatusCommon.SUCCESS;
-	    } else {
+	    } else if (isExist > 1){
 		orderProductRepository.increaseOrderProductExist(positionId, productId);
 		message = StatusCommon.SUCCESS;
-
+	    } else if (isExist == 0) {
+		positionRepository.closeTableById(positionId, createBy);
 	    }
 	} catch (Exception ex) {
 	    System.err.print(ex.getMessage());
